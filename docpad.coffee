@@ -35,6 +35,7 @@ module.exports =
       scripts: [
         "/lib/jQuery-2.0.3/jquery-2.0.3.min.js",
         "/lib/bootstrap-3.0.0/js/bootstrap.min.js"
+        "/lib/ga.js"
       ]
   collections:
     menuItems: ->
