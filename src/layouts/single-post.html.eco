@@ -1,0 +1,4 @@
+---
+layout: list-posts
+---
+<%- @partial("post", post: @document) %>

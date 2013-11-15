@@ -1,0 +1,9 @@
+---
+layout: default
+title: Blog
+referencesOthers: true
+menuItem: 1
+---
+<% for post in @getCollection("posts").toJSON(): %>
+  <%- @partial('post', { post: post, layout: null }) %>
+<% end %>

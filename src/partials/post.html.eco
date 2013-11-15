@@ -1,0 +1,39 @@
+<% prevPost = @prevPost(@post) %>
+<% nextPost = @nextPost(@post) %>
+<div class="col-xs-12 post">
+  <article>
+    <a name="<%- @post.url  %>"></a>
+    <header>
+    <h1>
+        <% if not @isTopLevelDocument(@post): %>
+            <a href="<%- @post.url %>">
+        <% end %>
+        <%- @post.title %></a>
+        <% if @isTopLevelDocument(@post): %>
+            </a>
+        <% end %>
+    </h1>
+    <h3>Posted <%- @getDateFromNow(@post) %> ago</h3>
+    </header>
+    <div class="post-content" role="main">
+        <%- @post.contentRenderedWithoutLayouts %>
+    </div>
+    <% if @isTopLevelDocument(@post): %>
+      <footer class="row nomargin nopadding">
+        <div class="col-xs-4 post-nav-prev">
+          <% if prevPost: %>
+            <a href="<%- prevPost.url %>">&#8592; <%- prevPost.title %></a>
+          <% end %>
+        </div>
+        <div class="col-xs-4 post-nav-top">
+          <a href="/index.html">Top</a>
+        </div>
+        <div class="col-xs-4 post-nav-next">
+          <% if nextPost: %>
+            <a href="<%- nextPost.url %>"><%- nextPost.title %> &#8594;</a>
+          <% end %>
+        </div>
+      </footer>
+    <% end %>
+  </article>
+</div>

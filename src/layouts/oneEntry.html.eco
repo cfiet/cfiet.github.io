@@ -1,0 +1,14 @@
+---
+layout: default
+---
+<div class="col-md-12 post">
+   <article>
+      <header>
+         <h1><a href="#"><%- @document.title %></a></h1>
+      </header>
+
+      <div class="post-content" role="main">
+         <%- @content %>
+      </div>
+   </article>
+</div>

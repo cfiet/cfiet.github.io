@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title><%= @getTitle() %></title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <%- @getBlock("meta").toHTML() %>
+  <%- @getBlock("styles").add(@assets.styles).toHTML() %>
+</head>
+<body>
+  <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/index.html">Strictly Lazy</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <% for item in @getCollection("menuItems").toJSON(): %>
+          <li <%- 'class="active"' if @isTopLevelDocument(item) %> >
+            <a href="<%- item.url %>"><%- item.title %></a>
+          </li>
+        <% end %>
+
+        <!--
+        <li class="active"><a href="/index.html">Blog</a></li>
+        <li><a href="/about.html">About</a></li>
+        -->
+      </ul>
+    </div>
+  </nav>
+
+  <!-- external fluid row -->
+  <div class="row nomargin nopadding">
+    <!-- content -->
+    <div class="col-sm-12 nomargin nopadding">
+      <!-- posts row -->
+      <div class="row posts">
+        <%- @content %>
+      </div> <!-- end of posts row -->
+    </div> <!-- end of content -->
+  </div> <!-- end of external fluid row -->
+  <%- @getBlock("scripts").add(@assets.scripts).toHTML() %>
+</body>
+</html>
