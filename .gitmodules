@@ -1,3 +1,6 @@
 [submodule "github-page"]
 	path = out
 	url = git@github.com:cfiet/cfiet.github.io.git
+[submodule "out"]
+	path = out
+	url = git@github.com:cfiet/cfiet.github.io.git
