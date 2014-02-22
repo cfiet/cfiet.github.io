@@ -11,7 +11,7 @@ module.exports =
     getTitle: ->
       if @document.title then "#{@document.title} | #{@site.title}" else "#{@site.title}"
     getDateFromNow: (doc = @document) ->
-      if doc.date then moment(doc.date).fromNow(true) else ""
+      if doc.date then moment(doc.date).format("dddd, Do MMMM YYYY") else ""
     isTopLevelDocument: (doc) ->
       doc.url is @document.url
     nextPost: (doc = @document) ->

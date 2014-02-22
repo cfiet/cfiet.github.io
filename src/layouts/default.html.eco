@@ -27,7 +27,7 @@
   </script>
   <%- @getBlock("styles").add(@assets.styles).toHTML() %>
   <script>
-    ga('send', 'timing', 'page', 'styles', timers.global.stop("page:styles"));
+    ga('send', 'timing', 'page', 'styles', Math.round(timers.global.stop("page:styles")));
   </script>
 
 
@@ -76,7 +76,7 @@
   </script>
   <%- @getBlock("scripts").add(@assets.scripts).toHTML() %>
   <script>
-    ga('send', 'timing', 'page', 'scripts', timers.global.stop("page:scripts"));
+    ga('send', 'timing', 'page', 'scripts', Math.round(timers.global.stop("page:scripts")));
   </script>
 </body>
 </html>

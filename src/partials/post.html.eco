@@ -13,7 +13,7 @@
             </a>
         <% end %>
     </h1>
-    <h3>Posted <%- @getDateFromNow(@post) %> ago</h3>
+    <h3>Posted on <%- @getDateFromNow(@post) %></h3>
     </header>
     <div class="post-content" role="main">
         <%- @post.contentRenderedWithoutLayouts %>
