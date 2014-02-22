@@ -34,6 +34,11 @@
           <% end %>
         </div>
       </footer>
+      <script>
+        var disqus_identifier = "<%- @post.url %>",
+            disqus_title = "<%- @post.title %>";
+      </script>
+      <section id="disqus_thread"></section>
     <% end %>
   </article>
 </div>

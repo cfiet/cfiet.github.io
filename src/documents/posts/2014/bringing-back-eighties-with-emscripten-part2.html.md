@@ -1,6 +1,6 @@
 ---
 layout: single-post
-title: "Bringing back the eighties with Emscripten - setting up Emscripten"
+title: "Bringing back the eighties with Emscripten - setting things up"
 isPost: true
 date: "2014-01-21 22:00"
 tags: "js HTML5 games emscripten tutorial"

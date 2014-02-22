@@ -73,6 +73,8 @@
 
   <script>
     timers.global.start("page:scripts");
+
+    var disqus_shortname = 'strictlylazy';
   </script>
   <%- @getBlock("scripts").add(@assets.scripts).toHTML() %>
   <script>
