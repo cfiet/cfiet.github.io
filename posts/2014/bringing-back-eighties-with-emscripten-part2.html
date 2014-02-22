@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>Blog | Strictly Lazy</title>
+  <title>Bringing back the eighties with Emscripten - setting things up | Strictly Lazy</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -51,7 +51,7 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         
-          <li class="active" >
+          <li  >
             <a href="/index.html">Blog</a>
           </li>
         
@@ -75,7 +75,6 @@
       <!-- posts row -->
       <div class="row posts">
         
-  
 
 <div class="col-xs-12 post">
   <article>
@@ -83,9 +82,9 @@
     <header>
     <h1>
         
-            <a href="/posts/2014/bringing-back-eighties-with-emscripten-part2.html">
-        
         Bringing back the eighties with Emscripten - setting things up</a>
+        
+            </a>
         
     </h1>
     <h3>Posted on Tuesday, 21st January 2014</h3>
@@ -214,73 +213,27 @@ hello, world!</code></pre>
 
     </div>
     
-  </article>
-</div>
-
-
-  
-
-<div class="col-xs-12 post">
-  <article>
-    <a name="/posts/2014/bringing-back-eighties-with-emscripten-part1.html"></a>
-    <header>
-    <h1>
-        
-            <a href="/posts/2014/bringing-back-eighties-with-emscripten-part1.html">
-        
-        Bringing back the eighties with Emscripten - introduction</a>
-        
-    </h1>
-    <h3>Posted on Tuesday, 21st January 2014</h3>
-    </header>
-    <div class="post-content" role="main">
-        <p>Since I first stumbled on some <a href="https://github.com/kripken/emscripten/wiki">Emscripten</a> demos, I
-had this idea of trying it out by bringing back my favorite childhood games to the web. Last week,
-I finally got some time to get to it. This post starts the series that
-descibe my attempts to port a game written in C to HTML5.</p>
-<h2 id="all-aboard-the-nostalgia-train-">All aboard the nostalgia train!</h2>
-<p><img src="/img/posts/2014/gnurobbo0-screenshot.png" alt="Behold the Atari ST power in all it`s might!"></p>
-<p>For those who weren`t in Poland in 1980s, the above screenshot comes from one of the first
-Polish games developed for <a href="http://en.wikipedia.org/wiki/Atari_8-bit_family">Atari</a>. This game
-introduced me to computers and dragged-in my whole family, including my mother, which was
-a feat no other game has archived ever since. So when I found <a href="http://gnurobbo.sourceforge.net">this Open Source port of Robbo</a>
-it seemed natural candidate for bringing back all the 1980s gaming fun to the modern Web.</p>
-<h2 id="a-tool-for-the-job">A tool for the job</h2>
-<p>So what exactly is <a href="https://github.com/kripken/emscripten/wiki">Emscripten</a>? According to the project Wiki page</p>
-<blockquote>
-<p>Emscripten is an LLVM to JavaScript compiler. It takes LLVM bytecode (which can be generated from C/C++
-using Clang, or any other language that can be converted into LLVM bytecode) and compiles that into
-JavaScript,which can be run on the web (or anywhere else JavaScript can run).</p>
-</blockquote>
-<p>To give some more explanation, <a href="http://llvm.org/">LLVM</a> is a bytecode/abstract virtual machine format, 
-simillar to <a href="http://en.wikipedia.org/wiki/Java_virtual_machine">Java Virtual Machine</a> or
-<a href="http://en.wikipedia.org/wiki/Common_Language_Runtime">Common Language Runtime</a>. The idea behind it is,
-that program code is compiled to the platform-agnostic LLVM bytecode. This intermediate code can then be
-either compiled again to target platform native code or run directly on target machine to be compiled on the fly,
-allowing to maximize optimizations that are avaliable on target platform. Due to its modular architecture, 
-it can be easily extended with both new languages that can be compiled to LLVM bytecode as well as new
-target platforms that the bytcode can be run on or compiled to.</p>
-<p>So where is Emscripten here? It is just the extension to LLVM, that alows to compile any LLVM bytecode
-to <em>HTML5 Browser</em> target platform.</p>
-<p>After this boring, technical introduction, let me show you few nice demos of what can be archived
-with it. Keep in mind, that since some of these use WebGL you`ll need a fairly up-to-date browsers and
-latest display drivers installed to run them:</p>
-<ul>
-<li><a href="http://www.unrealengine.com/html5/">Epic Citadel</a> - full port of <a href="http://www.unrealengine.com/">Unreal Engine</a></li>
-<li><a href="https://developer.mozilla.org/en-US/demos/detail/bananabread">Project Banana Bread</a> - a 3D, first person shooter
-that includes bot-enemies and multiplayer mode directly from browser.</li>
-<li><a href="http://coolwanglu.github.io/vim.js/web/vim.html">Vim.js</a> - the power of VIM unleashed in your browser</li>
-</ul>
-<p>If you want to see more, visit <a href="https://github.com/kripken/emscripten/wiki#wiki-demos">Emscrpiten Demos</a> section
-to see how many games and utility programs has already been proted to run inside your browser.</p>
-<p>Stay tuned for the next post where I will be going throug how to set up Emscripten and the problems I stumbled on
-in the process.</p>
-
-    </div>
+      <footer class="row nomargin nopadding">
+        <div class="col-xs-4 post-nav-prev">
+          
+            <a href="/posts/2014/bringing-back-eighties-with-emscripten-part1.html">&#8592; Bringing back the eighties with Emscripten - introduction</a>
+          
+        </div>
+        <div class="col-xs-4 post-nav-top">
+          <a href="/index.html">Top</a>
+        </div>
+        <div class="col-xs-4 post-nav-next">
+          
+        </div>
+      </footer>
+      <script>
+        var disqus_identifier = "/posts/2014/bringing-back-eighties-with-emscripten-part2.html",
+            disqus_title = "Bringing back the eighties with Emscripten - setting things up";
+      </script>
+      <section id="disqus_thread"></section>
     
   </article>
 </div>
-
 
       </div> <!-- end of posts row -->
     </div> <!-- end of content -->
