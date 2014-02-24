@@ -91,13 +91,13 @@
     <h3>Posted on Wednesday, 22nd January 2014</h3>
     </header>
     <div class="post-content" role="main">
-        <p>Ok, so I started up with getting the sources of <code>gnurobbo 0.66</code> and unpacking them in
+        <p>Ok, so I started up with getting the source of <code>gnurobbo 0.66</code> and unpacking it in
 local directory. I decided to build the native version first, so I can have a reference
 to which I could compare the browser version later. After installing <a href="http://www.libsdl.org/">SDL</a>
 with <code>apt-get</code> everything went pretty smoothly.</p>
 <p><img src="/img/posts/2014/c-gnurobbo-menu.png" alt="Main menu"> <img src="/img/posts/2014/c-gnurobbo-level1.png" alt="After starting the first level"></p>
 <h2 id="let-s-get-down-to-bussiness">Let`s get down to bussiness</h2>
-<p>Ok, so following <a href="">Emscripten Wiki</a> I run the <code>emmake</code> command.</p>
+<p>Ok, so following <a href="https://github.com/kripken/emscripten/wiki/Building-Projects">Emscripten Wiki Page</a> I run the <code>emmake</code> command.</p>
 <pre class="highlight"><code class="bash">cfiet@crunchbang:~/projects/gnurobbo$ emmake make <span class="operator">-f</span> Makefile.emscripten 
 /home/cfiet/projects/emscripten/emcc  -Wall `sdl-config --cflags` -DPLATFORM_PC -DVERSION=\<span class="string">"0.66\" -DPACKAGE_DATA_DIR=\"./data\" -DUSE_PIXMAP_FONT -DHAVE_MUSIC -DHAVE_DESIGNER -c board.c -o board.o
 controls.c:841:12: error: use of undeclared identifier 'stdout'
@@ -151,8 +151,7 @@ controls.c:1486:9: error: duplicate case value 'SDLK_RGUI'
 4 warnings and 16 errors generated.
 ERROR    root: compiler frontend failed to generate LLVM bitcode, halting
 make: *** [controls.o] Błąd 1</span></code></pre>
-<p>Bam, errors, errors, errors. But after some closer investigation, there are two main reasons one
-can find there:</p>
+<p>Bam, errors, errors, errors. But after some closer investigation, there are two main reasons for them:</p>
 <ol>
 <li>Missing <code>stdout</code> identifier. This is  easily-fixable by
 <a href="https://github.com/cfiet/gnurobbo/commit/327b6cb0d5147309b5a169f48d23722f14ad38df#diff-1">adding appropriate header file</a>,</li>
@@ -194,7 +193,7 @@ warning: Output contains some very large functions, consider using OUTLINING_LIM
 <p>Got few warnings, got some errors, but other than that it worked.</p>
 <p><img src="/img/posts/2014/excited-baby.gif" alt="It compiled!"></p>
 <h2 id="hold-your-horses-">Hold your horses!</h2>
-<p>The success quickly faded away after an attempt to open the page in the browser:</p>
+<p>The feeling of success quickly faded after an attempt to open the page in the browser:</p>
 <p><img src="/img/posts/2014/gnurobbo-page-v1.png" alt="Does not compute"></p>
 <p>The last message is</p>
 <pre class="highlight"><code class="javascript">Cannot find the <span class="keyword">default</span> level file: .<span class="regexp">/data/</span>levels/original.dat</code></pre>
@@ -203,7 +202,7 @@ warning: Output contains some very large functions, consider using OUTLINING_LIM
 way of pre-packaging data files with your application. 
 <a href="https://github.com/cfiet/gnurobbo/commit/e195be22bd185a50a877cdb5bf3fb3d141a53fa5">Adding the option to the compilation</a>
 got rid of the previous error, again after refreshing the page nothing really happened.</p>
-<p>No direct errors were in the Emscripten cosole, however in JavaScript developer console, I found</p>
+<p>No direct errors were in the Emscripten cosole, however in JavaScript developer console I found</p>
 <pre class="highlight"><code class="ruby"><span class="string">"missing function: SDL_DisplayFormat"</span> gnurobbo.<span class="symbol">html:</span><span class="number">709</span>
 uncaught <span class="symbol">exception:</span> abort() at stackTrace<span class="variable">@file</span><span class="symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="symbol">js:</span><span class="number">1454</span>
 abort<span class="variable">@file</span><span class="symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="symbol">js:</span><span class="number">10837</span>
@@ -213,12 +212,12 @@ doRun<span class="variable">@file</span><span class="symbol">:///home/cfiet/proj
 run/&lt;<span class="variable">@file</span><span class="symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="symbol">js:</span><span class="number">10799</span>
 <span class="string">"-1"</span></code></pre>
 <p>So, <code>SDL_DisplayFormat</code> is not implemented in Emscripten flavour of SDL. For a moment I thought that
-this is as far as I get - no function means no function.  I could try to implement missing functionality
-but as I`m not an expert in SDL this would probably require a lot of effort.  However, poking around
-sources of Emscripten version of SDL, I found an implemented function <code>SDL_DisplayFormatAlpha</code>.
+this is as far as I get - no function means no function.  I could try to implement missing functionality,
+but as I`m not an expert in SDL this would probably require a lot of effort. However, poking around
+sources of Emscripten version of SDL, I found an implementation of function <code>SDL_DisplayFormatAlpha</code>.
 Googling revealed that it works and that it most probably ignore the alpha channel for now, so I
-decided to give it a try and <a href="https://github.com/cfiet/gnurobbo/commit/0cdcf6c76d0dda98fbc234784f063d145cd126e4">replaced all the occurences ofSDL_DisplayFormat</a>.</p>
-<p>After recompilation and page refresh I was welcomed with same old white screen, but the JS console error has changed.</p>
+decided to give it a try and <a href="https://github.com/cfiet/gnurobbo/commit/0cdcf6c76d0dda98fbc234784f063d145cd126e4">replaced all the occurences of <code>SDL_DisplayFormat</code></a>.</p>
+<p>After recompilation and page refresh I was welcomed with same white screen, but the JS console error has changed.</p>
 <pre class="highlight"><code class="coffeescript">uncaught <span class="attribute">exception</span>: <span class="attribute">Mix_QuerySpec</span>: TODO</code></pre>
 <p>So, another unsupported function. This one however seemed to be connected to the sound subsystem, so I decided to
 <a href="https://github.com/cfiet/gnurobbo/commit/ba2809dcf807075bc332f9391d64ba0b7073b28c">just remove it</a>, accepting lack of in-game sounds in the end.</p>
@@ -254,7 +253,7 @@ to the way in which the main-loop is implemented in GNU Robbo, but after 10 minu
 <p><img src="/img/posts/2014/success-dance.gif" alt="It works!"></p>
 <p>The game loads and works! It even plays sound correctly, despite the removed function. After fixing one last,
 gameplay-breaking issue with random generator not working correctly, the game seems to be playable.</p>
-<p><a href="http://robbojs.cfiet.github.io">Try it out for yourself</a>.</p>
+<p><a href="http://blog.cfiet.net/robbojs">Try it out for yourself</a>.</p>
 <p>Have fun, and if you find any bugs feel free to report them on <a href="https://github.com/cfiet/gnurobbo/issues">github project page</a>.</p>
 
     </div>
