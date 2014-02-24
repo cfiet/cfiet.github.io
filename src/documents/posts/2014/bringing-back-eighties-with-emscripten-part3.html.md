@@ -6,7 +6,7 @@ date: "2014-01-22 20:00"
 tags: "js HTML5 games emscripten tutorial"
 ---
 
-Ok, so I started up with getting the sources of `gnurobbo 0.66` and unpacking them in
+Ok, so I started up with getting the source of `gnurobbo 0.66` and unpacking it in
 local directory. I decided to build the native version first, so I can have a reference
 to which I could compare the browser version later. After installing [SDL](http://www.libsdl.org/)
 with `apt-get` everything went pretty smoothly.
@@ -15,7 +15,7 @@ with `apt-get` everything went pretty smoothly.
 
 Let`s get down to bussiness
 -----
-Ok, so following [Emscripten Wiki]() I run the `emmake` command.
+Ok, so following [Emscripten Wiki Page](https://github.com/kripken/emscripten/wiki/Building-Projects) I run the `emmake` command.
 
 ```bash
 cfiet@crunchbang:~/projects/gnurobbo$ emmake make -f Makefile.emscripten 
@@ -73,9 +73,7 @@ ERROR    root: compiler frontend failed to generate LLVM bitcode, halting
 make: *** [controls.o] Błąd 1
 ```
 
-Bam, errors, errors, errors. But after some closer investigation, there are two main reasons one
-can find there:
-
+Bam, errors, errors, errors. But after some closer investigation, there are two main reasons for them:
  1. Missing `stdout` identifier. This is  easily-fixable by
     [adding appropriate header file](https://github.com/cfiet/gnurobbo/commit/327b6cb0d5147309b5a169f48d23722f14ad38df#diff-1),
  1. Duplicate case values coming from `SDL_*`. After some investigation it turned out that
@@ -123,7 +121,7 @@ Got few warnings, got some errors, but other than that it worked.
 
 Hold your horses!
 -----
-The success quickly faded away after an attempt to open the page in the browser:
+The feeling of success quickly faded after an attempt to open the page in the browser:
 
 ![Does not compute](/img/posts/2014/gnurobbo-page-v1.png)
 
@@ -138,7 +136,7 @@ way of pre-packaging data files with your application.
 [Adding the option to the compilation](https://github.com/cfiet/gnurobbo/commit/e195be22bd185a50a877cdb5bf3fb3d141a53fa5)
 got rid of the previous error, again after refreshing the page nothing really happened.
 
-No direct errors were in the Emscripten cosole, however in JavaScript developer console, I found
+No direct errors were in the Emscripten cosole, however in JavaScript developer console I found
 ```
 "missing function: SDL_DisplayFormat" gnurobbo.html:709
 uncaught exception: abort() at stackTrace@file:///home/cfiet/projects/gnurobbo/out/gnurobbo.js:1454
@@ -151,19 +149,19 @@ run/<@file:///home/cfiet/projects/gnurobbo/out/gnurobbo.js:10799
 ```
 
 So, `SDL_DisplayFormat` is not implemented in Emscripten flavour of SDL. For a moment I thought that
-this is as far as I get - no function means no function.  I could try to implement missing functionality
-but as I\`m not an expert in SDL this would probably require a lot of effort.  However, poking around
-sources of Emscripten version of SDL, I found an implemented function `SDL_DisplayFormatAlpha`.
+this is as far as I get - no function means no function.  I could try to implement missing functionality,
+but as I\`m not an expert in SDL this would probably require a lot of effort. However, poking around
+sources of Emscripten version of SDL, I found an implementation of function `SDL_DisplayFormatAlpha`.
 Googling revealed that it works and that it most probably ignore the alpha channel for now, so I
-decided to give it a try and [replaced all the occurences ofSDL_DisplayFormat](https://github.com/cfiet/gnurobbo/commit/0cdcf6c76d0dda98fbc234784f063d145cd126e4).
+decided to give it a try and [replaced all the occurences of `SDL_DisplayFormat`](https://github.com/cfiet/gnurobbo/commit/0cdcf6c76d0dda98fbc234784f063d145cd126e4).
 
-After recompilation and page refresh I was welcomed with same old white screen, but the JS console error has changed.
+After recompilation and page refresh I was welcomed with same white screen, but the JS console error has changed.
 ```
 uncaught exception: Mix_QuerySpec: TODO
 ```
 
 So, another unsupported function. This one however seemed to be connected to the sound subsystem, so I decided to
-[just remove it](https://github.com/cfiet/gnurobbo/commit/ba2809dcf807075bc332f9391d64ba0b7073b28c), accepting lack of in-game sounds in the end.
+[just remove it](https://github.com/cfiet/gnurobbo/commit/ba2809dcf807075bc332f9391d64ba0b7073b28c), accepting lack of in-game sounds.
 
 Compile, refresh and error again.
 ```
@@ -177,8 +175,8 @@ doRun@file:///home/cfiet/projects/gnurobbo/out/gnurobbo.js:10781
 run/<@file:///home/cfiet/projects/gnurobbo/out/gnurobbo.js:10793
 ```
 
-TTF sounded definetly like something connected to in-game font rendering. After some poking around `Makefile`
-it turned out that you can either use SDL with TTF fonts or pixmap fonts, so just [switched the mode to
+TTF seemes like something connected to in-game font rendering. After some poking around `Makefile`
+it turned out that you can either use TTF fonts or pixmap fonts with SDL, so I just [switched the mode to
 pixmap](https://github.com/cfiet/gnurobbo/commit/d95ca08d534fdbad6ccec8f292c3fa93671a1be2) to see what happens.
 
 Success happens
@@ -194,8 +192,8 @@ SDL_Delay called on the main thread! Potential infinite loop, quitting.
 
 Some poking around `game.c` revealed that `SDL_Delay` is used there to just control the framerate of
 the main game loop. So I decided to give it a try and just remove this call as well. Recompiled,
-refreshed the page and... Firefox spiked the processor, hanged and died. So removing the `SDL_Delay`
-was a bad idea and put the JavaScript code on the page into an infinite loop. Remembering that
+refreshed the page and... Firefox spiked the processor, hanged and died. So, the game does not
+terminate anymore, however the JavaScript code gets into an infinite loop. Remembering that
 I did have glanced on the main-loop issues somewhere in the Emscripten documentation, I did some
 googoling and got the page on 
 [Asynchronous main loop in browser](https://github.com/kripken/emscripten/wiki/Emscripten-browser-environment#wiki-implementing-an-asynchronous-main-loop-in-cc).
@@ -213,6 +211,6 @@ Huge success!
 The game loads and works! It even plays sound correctly, despite the removed function. After fixing one last,
 gameplay-breaking issue with random generator not working correctly, the game seems to be playable.
 
-[Try it out for yourself](http://robbojs.cfiet.github.io).
+[Try it out for yourself](http://blog.cfiet.net/robbojs).
 
 Have fun, and if you find any bugs feel free to report them on [github project page](https://github.com/cfiet/gnurobbo/issues).
