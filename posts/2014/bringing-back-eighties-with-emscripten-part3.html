@@ -90,11 +90,14 @@
     <h3>Posted on Wednesday, 22nd January 2014</h3>
     </header>
     <div class="post-content" role="main">
-        <p>Ok, so I started up with getting the source of <code>gnurobbo 0.66</code> and unpacking it in
+        
+          <p>Ok, so I started up with getting the source of <code>gnurobbo 0.66</code> and unpacking it in
 local directory. I decided to build the native version first, so I can have a reference
 to which I could compare the browser version later. After installing <a href="http://www.libsdl.org/">SDL</a>
 with <code>apt-get</code> everything went pretty smoothly.</p>
 <p><img src="/img/posts/2014/c-gnurobbo-menu.png" alt="Main menu"> <img src="/img/posts/2014/c-gnurobbo-level1.png" alt="After starting the first level"></p>
+<!-- Read more -->
+
 <h2 id="let-s-get-down-to-bussiness">Let`s get down to bussiness</h2>
 <p>Ok, so following <a href="https://github.com/kripken/emscripten/wiki/Building-Projects">Emscripten Wiki Page</a> I run the <code>emmake</code> command.</p>
 <pre class="highlight"><code class="bash">cfiet@crunchbang:~/projects/gnurobbo$ emmake make <span class="operator">-f</span> Makefile.emscripten 
@@ -219,7 +222,7 @@ decided to give it a try and <a href="https://github.com/cfiet/gnurobbo/commit/0
 <p>After recompilation and page refresh I was welcomed with same white screen, but the JS console error has changed.</p>
 <pre class="highlight"><code class="coffeescript">uncaught <span class="attribute">exception</span>: <span class="attribute">Mix_QuerySpec</span>: TODO</code></pre>
 <p>So, another unsupported function. This one however seemed to be connected to the sound subsystem, so I decided to
-<a href="https://github.com/cfiet/gnurobbo/commit/ba2809dcf807075bc332f9391d64ba0b7073b28c">just remove it</a>, accepting lack of in-game sounds in the end.</p>
+<a href="https://github.com/cfiet/gnurobbo/commit/ba2809dcf807075bc332f9391d64ba0b7073b28c">just remove it</a>, accepting lack of in-game sounds.</p>
 <p>Compile, refresh and error again.</p>
 <pre class="highlight"><code class="ruby"><span class="string">"missing function: TTF_RenderUTF8_Shaded"</span> gnurobbo.<span class="symbol">html:</span><span class="number">709</span>
 <span class="string">"-1"</span> gnurobbo.<span class="symbol">html:</span><span class="number">709</span>
@@ -229,8 +232,8 @@ _TTF_RenderUTF8_Shaded<span class="variable">@file</span><span class="symbol">:/
 callMain<span class="variable">@file</span><span class="symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="symbol">js:</span><span class="number">10728</span>
 doRun<span class="variable">@file</span><span class="symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="symbol">js:</span><span class="number">10781</span>
 run/&lt;<span class="variable">@file</span><span class="symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="symbol">js:</span><span class="number">10793</span></code></pre>
-<p>TTF sounded definetly like something connected to in-game font rendering. After some poking around <code>Makefile</code>
-it turned out that you can either use SDL with TTF fonts or pixmap fonts, so just <a href="https://github.com/cfiet/gnurobbo/commit/d95ca08d534fdbad6ccec8f292c3fa93671a1be2">switched the mode to
+<p>TTF seemes like something connected to in-game font rendering. After some poking around <code>Makefile</code>
+it turned out that you can either use TTF fonts or pixmap fonts with SDL, so I just <a href="https://github.com/cfiet/gnurobbo/commit/d95ca08d534fdbad6ccec8f292c3fa93671a1be2">switched the mode to
 pixmap</a> to see what happens.</p>
 <h2 id="success-happens">Success happens</h2>
 <p><img src="/img/posts/2014/gnurobbo-page-v2.png" alt="Yeeeeeeeeeeeeeeeeah!"></p>
@@ -239,8 +242,8 @@ with the following error:</p>
 <pre class="highlight"><code class="livecodeserver">SDL_Delay called <span class="command"><span class="keyword">on</span> <span class="title">the</span> <span class="title">main</span> <span class="title">thread</span>! <span class="title">Potential</span> <span class="title">infinite</span> <span class="title">loop</span>, <span class="title">quitting</span>.</span></code></pre>
 <p>Some poking around <code>game.c</code> revealed that <code>SDL_Delay</code> is used there to just control the framerate of
 the main game loop. So I decided to give it a try and just remove this call as well. Recompiled,
-refreshed the page and... Firefox spiked the processor, hanged and died. So removing the <code>SDL_Delay</code>
-was a bad idea and put the JavaScript code on the page into an infinite loop. Remembering that
+refreshed the page and... Firefox spiked the processor, hanged and died. So, the game does not
+terminate anymore, however the JavaScript code gets into an infinite loop. Remembering that
 I did have glanced on the main-loop issues somewhere in the Emscripten documentation, I did some
 googoling and got the page on 
 <a href="https://github.com/kripken/emscripten/wiki/Emscripten-browser-environment#wiki-implementing-an-asynchronous-main-loop-in-cc">Asynchronous main loop in browser</a>.</p>
@@ -255,6 +258,8 @@ gameplay-breaking issue with random generator not working correctly, the game se
 <p><a href="http://blog.cfiet.net/robbojs">Try it out for yourself</a>.</p>
 <p>Have fun, and if you find any bugs feel free to report them on <a href="https://github.com/cfiet/gnurobbo/issues">github project page</a>.</p>
 
+        
+        
     </div>
     
       <footer class="row nomargin nopadding">

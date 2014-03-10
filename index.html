@@ -91,171 +91,18 @@
     <h3>Posted on Wednesday, 22nd January 2014</h3>
     </header>
     <div class="post-content" role="main">
-        <p>Ok, so I started up with getting the source of <code>gnurobbo 0.66</code> and unpacking it in
+        
+        
+          <p>Ok, so I started up with getting the source of <code>gnurobbo 0.66</code> and unpacking it in
 local directory. I decided to build the native version first, so I can have a reference
 to which I could compare the browser version later. After installing <a href="http://www.libsdl.org/">SDL</a>
 with <code>apt-get</code> everything went pretty smoothly.</p>
 <p><img src="/img/posts/2014/c-gnurobbo-menu.png" alt="Main menu"> <img src="/img/posts/2014/c-gnurobbo-level1.png" alt="After starting the first level"></p>
-<h2 id="let-s-get-down-to-bussiness">Let`s get down to bussiness</h2>
-<p>Ok, so following <a href="https://github.com/kripken/emscripten/wiki/Building-Projects">Emscripten Wiki Page</a> I run the <code>emmake</code> command.</p>
-<pre class="highlight"><code class="bash">cfiet@crunchbang:~/projects/gnurobbo$ emmake make <span class="operator">-f</span> Makefile.emscripten 
-/home/cfiet/projects/emscripten/emcc  -Wall `sdl-config --cflags` -DPLATFORM_PC -DVERSION=\<span class="string">"0.66\" -DPACKAGE_DATA_DIR=\"./data\" -DUSE_PIXMAP_FONT -DHAVE_MUSIC -DHAVE_DESIGNER -c board.c -o board.o
-controls.c:841:12: error: use of undeclared identifier 'stdout'
-                fprintf (stdout, "</span>Error setting key repeat: %s\n<span class="string">", SDL_GetError ());
-                         ^
-controls.c:891:23: error: use of undeclared identifier 'stdout'
-                        if (show) fprintf (stdout, "</span>Joystick closed: %i:%s\n<span class="string">",
-                                           ^
-controls.c:907:25: error: use of undeclared identifier 'stdout'
-                                        if (show) fprintf (stdout, "</span>Joystick opened: %i:%s\n<span class="string">",
-                                                           ^
-controls.c:915:24: error: use of undeclared identifier 'stdout'
-                                if (show) fprintf (stdout, "</span>Couldn<span class="string">'t open joystick %i:%s!\n",
-                                                   ^
-controls.c:921:24: error: use of undeclared identifier '</span>stdout<span class="string">'
-                                if (show) fprintf (stdout, "Couldn'</span>t open any of %i joystick(s)!\n<span class="string">",
-                                                   ^
-controls.c:931:24: error: use of undeclared identifier 'stdout'
-                                if (show) fprintf (stdout, "</span>Joystick opened: %i:%s\n<span class="string">",
-                                                   ^
-controls.c:936:24: error: use of undeclared identifier 'stdout'
-                                if (show) fprintf (stdout, "</span>Couldn<span class="string">'t open joystick %i\n", joyid);
-                                                   ^
-controls.c:950:26: error: use of undeclared identifier '</span>stdout<span class="string">'
-                                                if (show) fprintf (stdout, "Joystick opened: %i:%s\n",
-                                                                   ^
-controls.c:967:27: error: use of undeclared identifier '</span>stdout<span class="string">'
-                                                        if (show) fprintf (stdout, "Joystick opened: %i:%s\n",
-                                                                           ^
-controls.c:977:25: error: use of undeclared identifier '</span>stdout<span class="string">'
-                                        if (show) fprintf (stdout, "Couldn'</span>t find joystick %i:%s\n<span class="string">",
-                                                           ^
-controls.c:986:22: error: use of undeclared identifier 'stdout'
-                if (show) fprintf (stdout, "</span>There is no joystick to initialise\n<span class="string">");
-                                   ^
-controls.c:1052:23: error: use of undeclared identifier 'stdout'
-                        if (show) fprintf (stdout, "</span>Joystick found: %i:%s\n<span class="string">",
-                                           ^
-controls.c:1058:22: error: use of undeclared identifier 'stdout'
-                if (show) fprintf (stdout, "</span>No joystick found\n<span class="string">");
-                                   ^
-controls.c:1513:9: error: duplicate case value 'SDLK_2'
-                        case SDLK_EURO:
-                             ^
-controls.c:1483:9: error: duplicate case value 'SDLK_LGUI'
-                        case SDLK_LSUPER:
-                             ^
-controls.c:1486:9: error: duplicate case value 'SDLK_RGUI'
-                        case SDLK_RSUPER:
-                             ^
-4 warnings and 16 errors generated.
-ERROR    root: compiler frontend failed to generate LLVM bitcode, halting
-make: *** [controls.o] Błąd 1</span></code></pre>
-<p>Bam, errors, errors, errors. But after some closer investigation, there are two main reasons for them:</p>
-<ol>
-<li>Missing <code>stdout</code> identifier. This is  easily-fixable by
-<a href="https://github.com/cfiet/gnurobbo/commit/327b6cb0d5147309b5a169f48d23722f14ad38df#diff-1">adding appropriate header file</a>,</li>
-<li>Duplicate case values coming from <code>SDL_*</code>. After some investigation it turned out that
-Emscripten uses its own, custom SDL version where only part of the library is currently
-supported. A lot of <code>SDL_*</code> defines are actually expanded to the same symbol when compiling.
-There is probably no good solution to this issue, so for now I decided to <a href="https://github.com/cfiet/gnurobbo/commit/746e8b26fdbaa17be05fc262bf60d1ba6fb12802#diff-3">remove this sections
-of code</a>
-with conditional compilation.</li>
-</ol>
-<p>Retried the compilation and, success!</p>
-<pre class="highlight"><code class="bash">cfiet@crunchbang:~/projects/gnurobbo$ emmake make <span class="operator">-f</span> Makefile.emscripten 
-/home/cfiet/projects/emscripten/emcc  -Wall -DPLATFORM_PC -DVERSION=\<span class="string">"0.66\" -DPACKAGE_DATA_DIR=\"./data\"  -DHAVE_MUSIC -DHAVE_DESIGNER -c board.c -o board.o
-/home/cfiet/projects/emscripten/emcc  -Wall -DPLATFORM_PC -DVERSION=\"0.66\" -DPACKAGE_DATA_DIR=\"./data\"  -DHAVE_MUSIC -DHAVE_DESIGNER -c controls.c -o controls.o
-/home/cfiet/projects/emscripten/emcc  -Wall -DPLATFORM_PC -DVERSION=\"0.66\" -DPACKAGE_DATA_DIR=\"./data\"  -DHAVE_MUSIC -DHAVE_DESIGNER -c font.c -o font.o
-/home/cfiet/projects/emscripten/emcc  -Wall -DPLATFORM_PC -DVERSION=\"0.66\" -DPACKAGE_DATA_DIR=\"./data\"  -DHAVE_MUSIC -DHAVE_DESIGNER -c game.c -o game.o
-/home/cfiet/projects/emscripten/emcc  -Wall -DPLATFORM_PC -DVERSION=\"0.66\" -DPACKAGE_DATA_DIR=\"./data\"  -DHAVE_MUSIC -DHAVE_DESIGNER -c konstruktor.c -o konstruktor.o
-/home/cfiet/projects/emscripten/emcc  -Wall -DPLATFORM_PC -DVERSION=\"0.66\" -DPACKAGE_DATA_DIR=\"./data\"  -DHAVE_MUSIC -DHAVE_DESIGNER -c levels.c -o levels.o
-/home/cfiet/projects/emscripten/emcc  -Wall -DPLATFORM_PC -DVERSION=\"0.66\" -DPACKAGE_DATA_DIR=\"./data\"  -DHAVE_MUSIC -DHAVE_DESIGNER -c locales.c -o locales.o
-/home/cfiet/projects/emscripten/emcc  -Wall -DPLATFORM_PC -DVERSION=\"0.66\" -DPACKAGE_DATA_DIR=\"./data\"  -DHAVE_MUSIC -DHAVE_DESIGNER -c pointer_controls.c -o pointer_controls.o
-/home/cfiet/projects/emscripten/emcc  -Wall -DPLATFORM_PC -DVERSION=\"0.66\" -DPACKAGE_DATA_DIR=\"./data\"  -DHAVE_MUSIC -DHAVE_DESIGNER -c rcfile.c -o rcfile.o
-/home/cfiet/projects/emscripten/emcc  -Wall -DPLATFORM_PC -DVERSION=\"0.66\" -DPACKAGE_DATA_DIR=\"./data\"  -DHAVE_MUSIC -DHAVE_DESIGNER -c ROB_engine.c -o ROB_engine.o
-/home/cfiet/projects/emscripten/emcc  -Wall -DPLATFORM_PC -DVERSION=\"0.66\" -DPACKAGE_DATA_DIR=\"./data\"  -DHAVE_MUSIC -DHAVE_DESIGNER -c screen.c -o screen.o
-/home/cfiet/projects/emscripten/emcc  -Wall -DPLATFORM_PC -DVERSION=\"0.66\" -DPACKAGE_DATA_DIR=\"./data\"  -DHAVE_MUSIC -DHAVE_DESIGNER -c skins.c -o skins.o
-/home/cfiet/projects/emscripten/emcc  -Wall -DPLATFORM_PC -DVERSION=\"0.66\" -DPACKAGE_DATA_DIR=\"./data\"  -DHAVE_MUSIC -DHAVE_DESIGNER -c sound.c -o sound.o
-/home/cfiet/projects/emscripten/emcc   board.o  controls.o  font.o  game.o  konstruktor.o  levels.o  locales.o  pointer_controls.o  rcfile.o  ROB_engine.o  screen.o  skins.o  sound.o  -o gnurobbo.bc
 
-emcc -O2 gnurobbo.bc -o out/gnurobbo.html
-INFO     root: =======================================
-INFO     root: bootstrapping relooper...
-INFO     root:   bootstrap phase 1
-INFO     root:   bootstrap phase 2
-INFO     root: bootstrapping relooper succeeded
-INFO     root: =======================================
-warning: unresolved symbol: TTF_Quit
-warning: unresolved symbol: TTF_RenderUTF8_Shaded
-warning: unresolved symbol: SDL_DisplayFormat
-warning: Output contains some very large functions, consider using OUTLINING_LIMIT to break them up (see settings.js)</span></code></pre>
-<p>Got few warnings, got some errors, but other than that it worked.</p>
-<p><img src="/img/posts/2014/excited-baby.gif" alt="It compiled!"></p>
-<h2 id="hold-your-horses-">Hold your horses!</h2>
-<p>The feeling of success quickly faded after an attempt to open the page in the browser:</p>
-<p><img src="/img/posts/2014/gnurobbo-page-v1.png" alt="Does not compute"></p>
-<p>The last message is</p>
-<pre class="highlight"><code class="javascript">Cannot find the <span class="keyword">default</span> level file: .<span class="regexp">/data/</span>levels/original.dat</code></pre>
-<p>So... it tries to find some game data files but fails to do that. Thanfully, quick browse through the 
-<a href="https://github.com/kripken/emscripten/wiki/Filesystem-Guide">Emscripten documentation</a> reveals the 
-way of pre-packaging data files with your application. 
-<a href="https://github.com/cfiet/gnurobbo/commit/e195be22bd185a50a877cdb5bf3fb3d141a53fa5">Adding the option to the compilation</a>
-got rid of the previous error, again after refreshing the page nothing really happened.</p>
-<p>No direct errors were in the Emscripten cosole, however in JavaScript developer console I found</p>
-<pre class="highlight"><code class="ruby"><span class="string">"missing function: SDL_DisplayFormat"</span> gnurobbo.<span class="symbol">html:</span><span class="number">709</span>
-uncaught <span class="symbol">exception:</span> abort() at stackTrace<span class="variable">@file</span><span class="symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="symbol">js:</span><span class="number">1454</span>
-abort<span class="variable">@file</span><span class="symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="symbol">js:</span><span class="number">10837</span>
-_SDL_DisplayFormat<span class="variable">@file</span><span class="symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="symbol">js:</span><span class="number">9952</span>
-callMain<span class="variable">@file</span><span class="symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="symbol">js:</span><span class="number">10734</span>
-doRun<span class="variable">@file</span><span class="symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="symbol">js:</span><span class="number">10787</span>
-run/&lt;<span class="variable">@file</span><span class="symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="symbol">js:</span><span class="number">10799</span>
-<span class="string">"-1"</span></code></pre>
-<p>So, <code>SDL_DisplayFormat</code> is not implemented in Emscripten flavour of SDL. For a moment I thought that
-this is as far as I get - no function means no function.  I could try to implement missing functionality,
-but as I`m not an expert in SDL this would probably require a lot of effort. However, poking around
-sources of Emscripten version of SDL, I found an implementation of function <code>SDL_DisplayFormatAlpha</code>.
-Googling revealed that it works and that it most probably ignore the alpha channel for now, so I
-decided to give it a try and <a href="https://github.com/cfiet/gnurobbo/commit/0cdcf6c76d0dda98fbc234784f063d145cd126e4">replaced all the occurences of <code>SDL_DisplayFormat</code></a>.</p>
-<p>After recompilation and page refresh I was welcomed with same white screen, but the JS console error has changed.</p>
-<pre class="highlight"><code class="coffeescript">uncaught <span class="attribute">exception</span>: <span class="attribute">Mix_QuerySpec</span>: TODO</code></pre>
-<p>So, another unsupported function. This one however seemed to be connected to the sound subsystem, so I decided to
-<a href="https://github.com/cfiet/gnurobbo/commit/ba2809dcf807075bc332f9391d64ba0b7073b28c">just remove it</a>, accepting lack of in-game sounds in the end.</p>
-<p>Compile, refresh and error again.</p>
-<pre class="highlight"><code class="ruby"><span class="string">"missing function: TTF_RenderUTF8_Shaded"</span> gnurobbo.<span class="symbol">html:</span><span class="number">709</span>
-<span class="string">"-1"</span> gnurobbo.<span class="symbol">html:</span><span class="number">709</span>
-uncaught <span class="symbol">exception:</span> abort() at stackTrace<span class="variable">@file</span><span class="symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="symbol">js:</span><span class="number">1454</span>
-abort<span class="variable">@file</span><span class="symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="symbol">js:</span><span class="number">10831</span>
-_TTF_RenderUTF8_Shaded<span class="variable">@file</span><span class="symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="symbol">js:</span><span class="number">9391</span>
-callMain<span class="variable">@file</span><span class="symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="symbol">js:</span><span class="number">10728</span>
-doRun<span class="variable">@file</span><span class="symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="symbol">js:</span><span class="number">10781</span>
-run/&lt;<span class="variable">@file</span><span class="symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="symbol">js:</span><span class="number">10793</span></code></pre>
-<p>TTF sounded definetly like something connected to in-game font rendering. After some poking around <code>Makefile</code>
-it turned out that you can either use SDL with TTF fonts or pixmap fonts, so just <a href="https://github.com/cfiet/gnurobbo/commit/d95ca08d534fdbad6ccec8f292c3fa93671a1be2">switched the mode to
-pixmap</a> to see what happens.</p>
-<h2 id="success-happens">Success happens</h2>
-<p><img src="/img/posts/2014/gnurobbo-page-v2.png" alt="Yeeeeeeeeeeeeeeeeah!"></p>
-<p>Finally, I saw some progress here. However, game has terminated before I was able to do anything
-with the following error:</p>
-<pre class="highlight"><code class="livecodeserver">SDL_Delay called <span class="command"><span class="keyword">on</span> <span class="title">the</span> <span class="title">main</span> <span class="title">thread</span>! <span class="title">Potential</span> <span class="title">infinite</span> <span class="title">loop</span>, <span class="title">quitting</span>.</span></code></pre>
-<p>Some poking around <code>game.c</code> revealed that <code>SDL_Delay</code> is used there to just control the framerate of
-the main game loop. So I decided to give it a try and just remove this call as well. Recompiled,
-refreshed the page and... Firefox spiked the processor, hanged and died. So removing the <code>SDL_Delay</code>
-was a bad idea and put the JavaScript code on the page into an infinite loop. Remembering that
-I did have glanced on the main-loop issues somewhere in the Emscripten documentation, I did some
-googoling and got the page on 
-<a href="https://github.com/kripken/emscripten/wiki/Emscripten-browser-environment#wiki-implementing-an-asynchronous-main-loop-in-cc">Asynchronous main loop in browser</a>.</p>
-<p>So, some refactoring had to be done, no biggie. Actually, the task turned out to be a little bit challenging due
-to the way in which the main-loop is implemented in GNU Robbo, but after 10 minutes I was able to
-<a href="https://github.com/cfiet/gnurobbo/commit/d4b98a46d27aabc8ce4bef44f8cead4c1841d138">pull off the refactored version</a>.</p>
-<p>Recompile, refresh.</p>
-<h2 id="huge-success-">Huge success!</h2>
-<p><img src="/img/posts/2014/success-dance.gif" alt="It works!"></p>
-<p>The game loads and works! It even plays sound correctly, despite the removed function. After fixing one last,
-gameplay-breaking issue with random generator not working correctly, the game seems to be playable.</p>
-<p><a href="http://blog.cfiet.net/robbojs">Try it out for yourself</a>.</p>
-<p>Have fun, and if you find any bugs feel free to report them on <a href="https://github.com/cfiet/gnurobbo/issues">github project page</a>.</p>
-
+          <p>
+            <a href="/posts/2014/bringing-back-eighties-with-emscripten-part3.html">Read more</a>
+          </p>
+        
     </div>
     
   </article>
@@ -278,127 +125,20 @@ gameplay-breaking issue with random generator not working correctly, the game se
     <h3>Posted on Tuesday, 21st January 2014</h3>
     </header>
     <div class="post-content" role="main">
-        <h2 id="introduction">Introduction</h2>
+        
+        
+          <h2 id="introduction">Introduction</h2>
 <p>Since a lot of work done with Emscripten and LLVM requires usage of command line and I
 loathe the Windows command line, the steps in this post will describe the process of
 setting up LLVM on Linux-based system. Specifically, I had some old virtual machine
 with <a href="http://crunchbang.org/">Crunchbang Waldorf</a> already installed, soI
 used this one. Since this distribution is based on <a href="https://www.debian.org/releases/wheezy/">Debian Wheezy</a>, 
 steps to set things up on Debian should be fairly simillar.</p>
-<p>The main intention of this post is to show some LLVM and Enscripten problems I
-stumbled on before I actually was able to compile anything.  Probably you can stumble
-on them on any environment. I followed the instructions
-from <a href="https://github.com/kripken/emscripten/wiki/Emscripten-SDK#wiki-installing-from-source">this Emscripten Wiki section</a>
-so in case of any problems, you should take a look there in the first place.</p>
-<p>If you already have all the things set up, you can skip this post and jump directly
-to the next one.</p>
-<h2 id="prerequisites">Prerequisites</h2>
-<p>The necessary prerequisites are:</p>
-<ul>
-<li>Python</li>
-<li>NodeJS</li>
-<li>LLVM</li>
-<li>clang</li>
-<li>git</li>
-</ul>
-<p>On Debian, all of them except NodeJS seemed to be already installed or avaliable in package
-manager, so you can <code>apt-get install</code> them easily.</p>
-<p>To obtain NodeJS through apt, you need to add <code>wheezy-backports</code> repository to the package
-manager. In order to do that, edit <code>/etc/apt/sources.list</code> and add the following line there:</p>
-<pre class="highlight"><code class="avrasm">deb http://ftp<span class="preprocessor">.pl</span><span class="preprocessor">.debian</span><span class="preprocessor">.org</span>/debian wheezy-backports main contrib non-free</code></pre>
-<p><strong>Warning:</strong> Keep in mind that <code>wheezy-backports</code> repository contains the packages that are
-less stable than default ones avaliable. Probably you don`t want to do this on improtant,
-production machines.</p>
-<p>Once you save the file, just run:</p>
-<pre class="highlight"><code class="bash"><span class="built_in">sudo</span> apt-get update
-<span class="built_in">sudo</span> apt-get install llvm clang git nodejs</code></pre>
-<p>This should get you all the prerequisites.</p>
-<h2 id="obtaining-emscripten">Obtaining Emscripten</h2>
-<p>Once the prerequisites are done installing, you can obtain the Emscripten toolchain by cloning the
-git repository somewhere in your system. To do that, run the following commands:</p>
-<pre class="highlight"><code class="bash">git clone https://github.com/kripken/emscripten.git
-<span class="built_in">cd</span> emscripten
-git checkout master</code></pre>
-<p>Emscripten is by default cloned with <code>incoming</code> branch which contains the developmen version
-of the project. You need to manually check-out the <code>master</code> to get the more stable branch.</p>
-<p>Once that is done, Emscripten is ready to be used on your machine.</p>
-<h2 id="it-doesn-t-work-">It doesn`t work!</h2>
-<p>Except, it did not work for me. I got the following error when compiled test file with emscripten C compiler:</p>
-<pre class="highlight"><code class="bash">cfiet@crunchbang:~/projects/emscripten$ ./em++ tests/hello_world.cpp
-WARNING  root: (Emscripten: system change: <span class="number">1.11</span>.<span class="number">0</span>|le32-unknown-nacl|/usr/bin|version vs <span class="number">1.11</span>.<span class="number">0</span>|le32-unknown-nacl|/usr/lib/llvm-<span class="number">3.5</span>/bin/|version, clearing cache)
-WARNING  root: LLVM version appears incorrect (seeing <span class="string">"version"</span>, expected <span class="string">"3.2"</span>)
-INFO     root: (Emscripten: Running sanity checks)
-clang: error: no such file or directory: <span class="string">'le32-unknown-nacl'</span>
-ERROR    root: compiler frontend failed to generate LLVM bitcode, halting</code></pre>
-<p>A quick check reveals the reason for this error</p>
-<pre class="highlight"><code class="bash">cfiet@crunchbang:~/projects/emscripten$ clang --version
-Debian clang version <span class="number">3.0</span>-<span class="number">6.2</span> (tags/RELEASE_30/final) (based on LLVM <span class="number">3.0</span>)
-Target: x86_64-pc-linux-gnu
-Thread model: posix</code></pre>
-<p>So of course I have to install newer clang version - this is mentioned in documentation but
-I didn`t bother to check what was the default version obtained from repository. After some
-googling, I found <a href="http://llvm.org/apt">this LLVM nightly packages</a> repository for Debian.
-To add it to your system, just create a file <code>/etc/apt/sources.list.d/llvm.list</code> with the 
-following content:</p>
-<pre class="highlight"><code class="brainfuck"><span class="comment">deb</span> <span class="comment">http://llvm</span><span class="string">.</span><span class="comment">org/apt/wheezy/</span> <span class="comment">llvm</span><span class="literal">-</span><span class="comment">toolchain</span><span class="literal">-</span><span class="comment">wheezy</span> <span class="comment">main</span></code></pre>
-<p><strong>Warning:</strong> This installs an unstable version of LLVM on your machine. Use with caution.</p>
-<p>Then run the following commands:</p>
-<pre class="highlight"><code class="bash"><span class="built_in">sudo</span> apt-get remove clang
-<span class="built_in">sudo</span> apt-get install clang-<span class="number">3.5</span></code></pre>
-<p>After installation has finished, I tried to compile the test file again:</p>
-<pre class="highlight"><code class="bash">cfiet@crunchbang:~/projects/emscripten$ ./em++ tests/hello_world.cpp
-/usr/bin/llvm-nm: /tmp/tmpwBqfBx/hello_world_0.o: Unknown bitstream version!
-/usr/bin/opt: /tmp/tmpwBqfBx/a.out.bc: Unknown bitstream version!
-Traceback (most recent call last):
-    File <span class="string">"/home/cfiet/projects/emscripten/emcc"</span>, line <span class="number">1479</span>, <span class="keyword">in</span> &lt;module&gt;
-        shared.Building.llvm_opt(final, link_opts, final + <span class="string">'.link.ll'</span>)
-    File <span class="string">"/home/cfiet/projects/emscripten/tools/shared.py"</span>, line <span class="number">1173</span>, <span class="keyword">in</span> llvm_opt
-        assert os.path.exists(target), <span class="string">'Failed to run llvm optimizations: '</span> + output
-        AssertionError: Failed to run llvm optimizations:</code></pre>
-<p>Bummer, still not working. Since the <code>llvm-nm</code> command seems to fail, I checked the version of
-the tool:</p>
-<pre class="highlight"><code class="bash">cfiet@crunchbang:~/projects/emscripten$ llvm-nm --version
-Low Level Virtual Machine (http://llvm.org/):
- llvm version <span class="number">3.0</span>
-  (Debian <span class="number">3.0</span>-<span class="number">10</span>)Optimized build.
- Built Jul <span class="number">13</span> <span class="number">2012</span> (<span class="number">11</span>:<span class="number">36</span>:<span class="number">32</span>).
- Host: x86_64-pc-linux-gnu
- Host CPU: corei7-avx</code></pre>
-<p>Ok, so I still have an old version of LLVM installed togather as default, even though during <code>clang-3.5</code>
-installation, <code>llvm-3.5</code> was installed as well. So I tried to remove the old version with</p>
-<pre class="highlight"><code class="bash"><span class="built_in">sudo</span> apt-get remove llvm</code></pre>
-<p>After that, attempting to compile the test file, failed with the following error:</p>
-<pre class="highlight"><code class="livecodeserver">cfiet@crunchbang:~/projects/emscripten$ ./em++ tests/hello_world.cpp
-Traceback (most recent call <span class="keyword">last</span>):
-  File <span class="string">"/home/cfiet/projects/emscripten/emcc"</span>, <span class="built_in">line</span> <span class="number">1424</span>, <span class="operator">in</span> &lt;module&gt;
-    extra_files_to_link = system_libs.calculate(temp_files, in_temp, <span class="keyword">stdout</span>, <span class="keyword">stderr</span>)
-  File <span class="string">"/home/cfiet/projects/emscripten/tools/system_libs.py"</span>, <span class="built_in">line</span> <span class="number">342</span>, <span class="operator">in</span> calculate
-    symbolses = map(lambda temp_file: shared.Building.llvm_nm(temp_file), temp_files)
-  File <span class="string">"/home/cfiet/projects/emscripten/tools/system_libs.py"</span>, <span class="built_in">line</span> <span class="number">342</span>, <span class="operator">in</span> &lt;lambda&gt;
-    symbolses = map(lambda temp_file: shared.Building.llvm_nm(temp_file), temp_files)
-  File <span class="string">"/home/cfiet/projects/emscripten/tools/shared.py"</span>, <span class="built_in">line</span> <span class="number">1217</span>, <span class="operator">in</span> llvm_nm
-    output = Popen([LLVM_NM, filename], <span class="keyword">stdout</span>=<span class="keyword">stdout</span>, <span class="keyword">stderr</span>=<span class="keyword">stderr</span>).communicate()[<span class="number">0</span>]
-  File <span class="string">"/usr/lib/python2.7/subprocess.py"</span>, <span class="built_in">line</span> <span class="number">679</span>, <span class="operator">in</span> __init__
-    errread, errwrite)
-  File <span class="string">"/usr/lib/python2.7/subprocess.py"</span>, <span class="built_in">line</span> <span class="number">1259</span>, <span class="operator">in</span> <span class="title">_execute</span>_child
-    raise child_exception
-OSError: [Errno <span class="number">2</span>] No such <span class="built_in">file</span> <span class="operator">or</span> <span class="built_in">directory</span></code></pre>
-<p>Seems that now, Emscripten cannot find <code>llvm-nm</code> at all, because the tool in <code>PATH</code> is called <code>llvm-nm-3.5</code>
-that is a symbolic link to <code>/usr/lib/llvm-3.5/bin/llvm-nm</code>. However, Emscripten generates
-a file <code>~/.emscripten</code> where you can customize paths to the tools it uses. So I just edited the file and
-modified the line that sets up the <code>LLVM_ROOT</code> variable:</p>
-<pre class="highlight"><code class="python"><span class="comment">#LLVM_ROOT = os.path.expanduser(os.getenv('LLVM') or '/usr/bin') # original version of the line</span>
-LLVM_ROOT = os.path.expanduser(os.getenv(<span class="string">'LLVM'</span>) <span class="keyword">or</span> <span class="string">'/usr/lib/llvm-3.5/bin'</span>)</code></pre>
-<p>Now, after trying to compile the test script I got the following:</p>
-<pre class="highlight"><code class="bash">cfiet@crunchbang:~/projects/emscripten$ ./em++ tests/hello_world.cpp
-WARNING  root: (Emscripten: settings file has changed, clearing cache)
-WARNING  root: LLVM version appears incorrect (seeing <span class="string">"version"</span>, expected <span class="string">"3.2"</span>)
-INFO     root: (Emscripten: Running sanity checks)
-cfiet@crunchbang:~/projects/emscripten$ node ./a.out.js
-hello, world!</code></pre>
-<p><img src="/img/posts/2014/it-s_alive.jpg" alt="It`s alive!"></p>
-<p>Now, that Emscripten seem to work, and I`m all set to bring the Robbo back.</p>
 
+          <p>
+            <a href="/posts/2014/bringing-back-eighties-with-emscripten-part2.html">Read more</a>
+          </p>
+        
     </div>
     
   </article>
@@ -421,7 +161,9 @@ hello, world!</code></pre>
     <h3>Posted on Tuesday, 21st January 2014</h3>
     </header>
     <div class="post-content" role="main">
-        <p>Since I first stumbled on some <a href="https://github.com/kripken/emscripten/wiki">Emscripten</a> demos, I
+        
+        
+          <p>Since I first stumbled on some <a href="https://github.com/kripken/emscripten/wiki">Emscripten</a> demos, I
 had this idea of trying it out by bringing back my favorite childhood games to the web. Last week,
 I finally got some time to get to it. This post starts the series that
 descibe my attempts to port a game written in C to HTML5.</p>
@@ -432,37 +174,11 @@ Polish games developed for <a href="http://en.wikipedia.org/wiki/Atari_8-bit_fam
 introduced me to computers and dragged-in my whole family, including my mother, which was
 a feat no other game has archived ever since. So when I found <a href="http://gnurobbo.sourceforge.net">this Open Source port of Robbo</a>
 it seemed natural candidate for bringing back all the 1980s gaming fun to the modern Web.</p>
-<h2 id="a-tool-for-the-job">A tool for the job</h2>
-<p>So what exactly is <a href="https://github.com/kripken/emscripten/wiki">Emscripten</a>? According to the project Wiki page</p>
-<blockquote>
-<p>Emscripten is an LLVM to JavaScript compiler. It takes LLVM bytecode (which can be generated from C/C++
-using Clang, or any other language that can be converted into LLVM bytecode) and compiles that into
-JavaScript,which can be run on the web (or anywhere else JavaScript can run).</p>
-</blockquote>
-<p>To give some more explanation, <a href="http://llvm.org/">LLVM</a> is a bytecode/abstract virtual machine format, 
-simillar to <a href="http://en.wikipedia.org/wiki/Java_virtual_machine">Java Virtual Machine</a> or
-<a href="http://en.wikipedia.org/wiki/Common_Language_Runtime">Common Language Runtime</a>. The idea behind it is,
-that program code is compiled to the platform-agnostic LLVM bytecode. This intermediate code can then be
-either compiled again to target platform native code or run directly on target machine to be compiled on the fly,
-allowing to maximize optimizations that are avaliable on target platform. Due to its modular architecture, 
-it can be easily extended with both new languages that can be compiled to LLVM bytecode as well as new
-target platforms that the bytcode can be run on or compiled to.</p>
-<p>So where is Emscripten here? It is just the extension to LLVM, that alows to compile any LLVM bytecode
-to <em>HTML5 Browser</em> target platform.</p>
-<p>After this boring, technical introduction, let me show you few nice demos of what can be archived
-with it. Keep in mind, that since some of these use WebGL you`ll need a fairly up-to-date browsers and
-latest display drivers installed to run them:</p>
-<ul>
-<li><a href="http://www.unrealengine.com/html5/">Epic Citadel</a> - full port of <a href="http://www.unrealengine.com/">Unreal Engine</a></li>
-<li><a href="https://developer.mozilla.org/en-US/demos/detail/bananabread">Project Banana Bread</a> - a 3D, first person shooter
-that includes bot-enemies and multiplayer mode directly from browser.</li>
-<li><a href="http://coolwanglu.github.io/vim.js/web/vim.html">Vim.js</a> - the power of VIM unleashed in your browser</li>
-</ul>
-<p>If you want to see more, visit <a href="https://github.com/kripken/emscripten/wiki#wiki-demos">Emscrpiten Demos</a> section
-to see how many games and utility programs has already been proted to run inside your browser.</p>
-<p>Stay tuned for the next post where I will be going throug how to set up Emscripten and the problems I stumbled on
-in the process.</p>
 
+          <p>
+            <a href="/posts/2014/bringing-back-eighties-with-emscripten-part1.html">Read more</a>
+          </p>
+        
     </div>
     
   </article>
