@@ -15,6 +15,8 @@ with [Crunchbang Waldorf](http://crunchbang.org/) already installed, soI
 used this one. Since this distribution is based on [Debian Wheezy](https://www.debian.org/releases/wheezy/), 
 steps to set things up on Debian should be fairly simillar.
 
+<!-- Read more -->
+
 The main intention of this post is to show some LLVM and Enscripten problems I
 stumbled on before I actually was able to compile anything.  Probably you can stumble
 on them on any environment. I followed the instructions

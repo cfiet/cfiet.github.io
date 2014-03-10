@@ -12,6 +12,14 @@ module.exports =
       if @document.title then "#{@document.title} | #{@site.title}" else "#{@site.title}"
     getDateFromNow: (doc = @document) ->
       if doc.date then moment(doc.date).format("dddd, Do MMMM YYYY") else ""
+    getHeaderContent: (content) ->
+      i = content.search('<!-- Read more -->')
+      if i >= 0
+        content[0..i-1]
+      else
+        content
+    hasMore: (content) ->
+      content.search('<!-- Read more -->') >= 0
     isTopLevelDocument: (doc) ->
       doc.url is @document.url
     nextPost: (doc = @document) ->

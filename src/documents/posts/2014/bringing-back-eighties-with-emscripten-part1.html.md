@@ -23,6 +23,8 @@ introduced me to computers and dragged-in my whole family, including my mother, 
 a feat no other game has archived ever since. So when I found [this Open Source port of Robbo](http://gnurobbo.sourceforge.net)
 it seemed natural candidate for bringing back all the 1980s gaming fun to the modern Web.
 
+<!-- Read more -->
+
 A tool for the job
 -----
 So what exactly is [Emscripten](https://github.com/kripken/emscripten/wiki)? According to the project Wiki page

@@ -13,6 +13,8 @@ with `apt-get` everything went pretty smoothly.
 
 ![Main menu](/img/posts/2014/c-gnurobbo-menu.png) ![After starting the first level](/img/posts/2014/c-gnurobbo-level1.png)
 
+<!-- Read more -->
+
 Let`s get down to bussiness
 -----
 Ok, so following [Emscripten Wiki Page](https://github.com/kripken/emscripten/wiki/Building-Projects) I run the `emmake` command.
