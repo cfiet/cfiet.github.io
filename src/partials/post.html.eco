@@ -16,11 +16,11 @@
     <h3>Posted on <%- @getDateFromNow(@post) %></h3>
     </header>
     <div class="post-content" role="main">
-        <% if @isTopLevelDocument(@post): %>
+        <% if not @hasMore(@post): %>
           <%- @post.contentRenderedWithoutLayouts %>
         <% end %>
-        <% if not @isTopLevelDocument(@post): %>
-          <%- @getHeaderContent(@post.contentRenderedWithoutLayouts) %>
+        <% if @hasMore(@post): %>
+          <%- @getHeaderContent(@post) %>
           <p>
             <a href="<%- @post.url %>">Read more</a>
           </p>
