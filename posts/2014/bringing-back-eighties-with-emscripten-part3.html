@@ -20,16 +20,12 @@
     ga('send', 'pageview');
   </script>
 
-  <meta name="generator" content="DocPad v6.52.2" />
+  <meta name="generator" content="DocPad v6.78.4" />
 
   <script>
     timers.global.start("page:styles");
   </script>
-  <style >html.wait {
-	cursor: wait !important;
-	opacity: 0;
-	transition: opacity 0.5s ease;
-}</style><link  rel="stylesheet" href="/lib/bootstrap-3.0.0/css/bootstrap.min.css" /><link  rel="stylesheet" href="/lib/highlight.js/styles/github.css" /><link  rel="stylesheet" href="/style.css" />
+  <link  rel="stylesheet" href="/lib/bootstrap-3.0.0/css/bootstrap.min.css" /><link  rel="stylesheet" href="/lib/highlight.js/styles/github.css" /><link  rel="stylesheet" href="/style.css" />
   <script>
     ga('send', 'timing', 'page', 'styles', Math.round(timers.global.stop("page:styles")));
   </script>
@@ -97,49 +93,48 @@ to which I could compare the browser version later. After installing <a href="ht
 with <code>apt-get</code> everything went pretty smoothly.</p>
 <p><img src="/img/posts/2014/c-gnurobbo-menu.png" alt="Main menu"> <img src="/img/posts/2014/c-gnurobbo-level1.png" alt="After starting the first level"></p>
 <!-- Read more -->
-
 <h2 id="let-s-get-down-to-bussiness">Let`s get down to bussiness</h2>
 <p>Ok, so following <a href="https://github.com/kripken/emscripten/wiki/Building-Projects">Emscripten Wiki Page</a> I run the <code>emmake</code> command.</p>
-<pre class="highlight"><code class="bash">cfiet@crunchbang:~/projects/gnurobbo$ emmake make <span class="operator">-f</span> Makefile.emscripten 
-/home/cfiet/projects/emscripten/emcc  -Wall `sdl-config --cflags` -DPLATFORM_PC -DVERSION=\<span class="string">"0.66\" -DPACKAGE_DATA_DIR=\"./data\" -DUSE_PIXMAP_FONT -DHAVE_MUSIC -DHAVE_DESIGNER -c board.c -o board.o
+<pre class="highlight"><code class="hljs bash">cfiet@crunchbang:~/projects/gnurobbo$ emmake make <span class="hljs-operator">-f</span> Makefile.emscripten 
+/home/cfiet/projects/emscripten/emcc  -Wall `sdl-config --cflags` -DPLATFORM_PC -DVERSION=\<span class="hljs-string">"0.66\" -DPACKAGE_DATA_DIR=\"./data\" -DUSE_PIXMAP_FONT -DHAVE_MUSIC -DHAVE_DESIGNER -c board.c -o board.o
 controls.c:841:12: error: use of undeclared identifier 'stdout'
-                fprintf (stdout, "</span>Error setting key repeat: %s\n<span class="string">", SDL_GetError ());
+                fprintf (stdout, "</span>Error setting key repeat: %s\n<span class="hljs-string">", SDL_GetError ());
                          ^
 controls.c:891:23: error: use of undeclared identifier 'stdout'
-                        if (show) fprintf (stdout, "</span>Joystick closed: %i:%s\n<span class="string">",
+                        if (show) fprintf (stdout, "</span>Joystick closed: %i:%s\n<span class="hljs-string">",
                                            ^
 controls.c:907:25: error: use of undeclared identifier 'stdout'
-                                        if (show) fprintf (stdout, "</span>Joystick opened: %i:%s\n<span class="string">",
+                                        if (show) fprintf (stdout, "</span>Joystick opened: %i:%s\n<span class="hljs-string">",
                                                            ^
 controls.c:915:24: error: use of undeclared identifier 'stdout'
-                                if (show) fprintf (stdout, "</span>Couldn<span class="string">'t open joystick %i:%s!\n",
+                                if (show) fprintf (stdout, "</span>Couldn<span class="hljs-string">'t open joystick %i:%s!\n",
                                                    ^
-controls.c:921:24: error: use of undeclared identifier '</span>stdout<span class="string">'
-                                if (show) fprintf (stdout, "Couldn'</span>t open any of %i joystick(s)!\n<span class="string">",
+controls.c:921:24: error: use of undeclared identifier '</span>stdout<span class="hljs-string">'
+                                if (show) fprintf (stdout, "Couldn'</span>t open any of %i joystick(s)!\n<span class="hljs-string">",
                                                    ^
 controls.c:931:24: error: use of undeclared identifier 'stdout'
-                                if (show) fprintf (stdout, "</span>Joystick opened: %i:%s\n<span class="string">",
+                                if (show) fprintf (stdout, "</span>Joystick opened: %i:%s\n<span class="hljs-string">",
                                                    ^
 controls.c:936:24: error: use of undeclared identifier 'stdout'
-                                if (show) fprintf (stdout, "</span>Couldn<span class="string">'t open joystick %i\n", joyid);
+                                if (show) fprintf (stdout, "</span>Couldn<span class="hljs-string">'t open joystick %i\n", joyid);
                                                    ^
-controls.c:950:26: error: use of undeclared identifier '</span>stdout<span class="string">'
+controls.c:950:26: error: use of undeclared identifier '</span>stdout<span class="hljs-string">'
                                                 if (show) fprintf (stdout, "Joystick opened: %i:%s\n",
                                                                    ^
-controls.c:967:27: error: use of undeclared identifier '</span>stdout<span class="string">'
+controls.c:967:27: error: use of undeclared identifier '</span>stdout<span class="hljs-string">'
                                                         if (show) fprintf (stdout, "Joystick opened: %i:%s\n",
                                                                            ^
-controls.c:977:25: error: use of undeclared identifier '</span>stdout<span class="string">'
-                                        if (show) fprintf (stdout, "Couldn'</span>t find joystick %i:%s\n<span class="string">",
+controls.c:977:25: error: use of undeclared identifier '</span>stdout<span class="hljs-string">'
+                                        if (show) fprintf (stdout, "Couldn'</span>t find joystick %i:%s\n<span class="hljs-string">",
                                                            ^
 controls.c:986:22: error: use of undeclared identifier 'stdout'
-                if (show) fprintf (stdout, "</span>There is no joystick to initialise\n<span class="string">");
+                if (show) fprintf (stdout, "</span>There is no joystick to initialise\n<span class="hljs-string">");
                                    ^
 controls.c:1052:23: error: use of undeclared identifier 'stdout'
-                        if (show) fprintf (stdout, "</span>Joystick found: %i:%s\n<span class="string">",
+                        if (show) fprintf (stdout, "</span>Joystick found: %i:%s\n<span class="hljs-string">",
                                            ^
 controls.c:1058:22: error: use of undeclared identifier 'stdout'
-                if (show) fprintf (stdout, "</span>No joystick found\n<span class="string">");
+                if (show) fprintf (stdout, "</span>No joystick found\n<span class="hljs-string">");
                                    ^
 controls.c:1513:9: error: duplicate case value 'SDLK_2'
                         case SDLK_EURO:
@@ -152,7 +147,8 @@ controls.c:1486:9: error: duplicate case value 'SDLK_RGUI'
                              ^
 4 warnings and 16 errors generated.
 ERROR    root: compiler frontend failed to generate LLVM bitcode, halting
-make: *** [controls.o] Błąd 1</span></code></pre>
+make: *** [controls.o] Błąd 1
+</span></code></pre>
 <p>Bam, errors, errors, errors. But after some closer investigation, there are two main reasons for them:</p>
 <ol>
 <li>Missing <code>stdout</code> identifier. This is  easily-fixable by
@@ -165,8 +161,8 @@ of code</a>
 with conditional compilation.</li>
 </ol>
 <p>Retried the compilation and, success!</p>
-<pre class="highlight"><code class="bash">cfiet@crunchbang:~/projects/gnurobbo$ emmake make <span class="operator">-f</span> Makefile.emscripten 
-/home/cfiet/projects/emscripten/emcc  -Wall -DPLATFORM_PC -DVERSION=\<span class="string">"0.66\" -DPACKAGE_DATA_DIR=\"./data\"  -DHAVE_MUSIC -DHAVE_DESIGNER -c board.c -o board.o
+<pre class="highlight"><code class="hljs bash">cfiet@crunchbang:~/projects/gnurobbo$ emmake make <span class="hljs-operator">-f</span> Makefile.emscripten 
+/home/cfiet/projects/emscripten/emcc  -Wall -DPLATFORM_PC -DVERSION=\<span class="hljs-string">"0.66\" -DPACKAGE_DATA_DIR=\"./data\"  -DHAVE_MUSIC -DHAVE_DESIGNER -c board.c -o board.o
 /home/cfiet/projects/emscripten/emcc  -Wall -DPLATFORM_PC -DVERSION=\"0.66\" -DPACKAGE_DATA_DIR=\"./data\"  -DHAVE_MUSIC -DHAVE_DESIGNER -c controls.c -o controls.o
 /home/cfiet/projects/emscripten/emcc  -Wall -DPLATFORM_PC -DVERSION=\"0.66\" -DPACKAGE_DATA_DIR=\"./data\"  -DHAVE_MUSIC -DHAVE_DESIGNER -c font.c -o font.o
 /home/cfiet/projects/emscripten/emcc  -Wall -DPLATFORM_PC -DVERSION=\"0.66\" -DPACKAGE_DATA_DIR=\"./data\"  -DHAVE_MUSIC -DHAVE_DESIGNER -c game.c -o game.o
@@ -191,56 +187,57 @@ INFO     root: =======================================
 warning: unresolved symbol: TTF_Quit
 warning: unresolved symbol: TTF_RenderUTF8_Shaded
 warning: unresolved symbol: SDL_DisplayFormat
-warning: Output contains some very large functions, consider using OUTLINING_LIMIT to break them up (see settings.js)</span></code></pre>
+warning: Output contains some very large functions, consider using OUTLINING_LIMIT to break them up (see settings.js)
+</span></code></pre>
 <p>Got few warnings, got some errors, but other than that it worked.</p>
 <p><img src="/img/posts/2014/excited-baby.gif" alt="It compiled!"></p>
 <h2 id="hold-your-horses-">Hold your horses!</h2>
 <p>The feeling of success quickly faded after an attempt to open the page in the browser:</p>
 <p><img src="/img/posts/2014/gnurobbo-page-v1.png" alt="Does not compute"></p>
 <p>The last message is</p>
-<pre class="highlight"><code class="javascript">Cannot find the <span class="keyword">default</span> level file: .<span class="regexp">/data/</span>levels/original.dat</code></pre>
-<p>So... it tries to find some game data files but fails to do that. Thanfully, quick browse through the 
+<pre class="highlight"><code class="hljs groovy">Cannot find the <span class="hljs-keyword">default</span> level <span class="hljs-string">file:</span> .<span class="hljs-regexp">/data/</span>levels/original.dat
+</code></pre><p>So... it tries to find some game data files but fails to do that. Thanfully, quick browse through the 
 <a href="https://github.com/kripken/emscripten/wiki/Filesystem-Guide">Emscripten documentation</a> reveals the 
 way of pre-packaging data files with your application. 
 <a href="https://github.com/cfiet/gnurobbo/commit/e195be22bd185a50a877cdb5bf3fb3d141a53fa5">Adding the option to the compilation</a>
 got rid of the previous error, again after refreshing the page nothing really happened.</p>
 <p>No direct errors were in the Emscripten cosole, however in JavaScript developer console I found</p>
-<pre class="highlight"><code class="ruby"><span class="string">"missing function: SDL_DisplayFormat"</span> gnurobbo.<span class="symbol">html:</span><span class="number">709</span>
-uncaught <span class="symbol">exception:</span> abort() at stackTrace<span class="variable">@file</span><span class="symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="symbol">js:</span><span class="number">1454</span>
-abort<span class="variable">@file</span><span class="symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="symbol">js:</span><span class="number">10837</span>
-_SDL_DisplayFormat<span class="variable">@file</span><span class="symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="symbol">js:</span><span class="number">9952</span>
-callMain<span class="variable">@file</span><span class="symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="symbol">js:</span><span class="number">10734</span>
-doRun<span class="variable">@file</span><span class="symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="symbol">js:</span><span class="number">10787</span>
-run/&lt;<span class="variable">@file</span><span class="symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="symbol">js:</span><span class="number">10799</span>
-<span class="string">"-1"</span></code></pre>
-<p>So, <code>SDL_DisplayFormat</code> is not implemented in Emscripten flavour of SDL. For a moment I thought that
+<pre class="highlight"><code class="hljs ruby"><span class="hljs-string">"missing function: SDL_DisplayFormat"</span> gnurobbo.<span class="hljs-symbol">html:</span><span class="hljs-number">709</span>
+uncaught <span class="hljs-symbol">exception:</span> abort() at stackTrace<span class="hljs-variable">@file</span><span class="hljs-symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="hljs-symbol">js:</span><span class="hljs-number">1454</span>
+abort<span class="hljs-variable">@file</span><span class="hljs-symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="hljs-symbol">js:</span><span class="hljs-number">10837</span>
+_SDL_DisplayFormat<span class="hljs-variable">@file</span><span class="hljs-symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="hljs-symbol">js:</span><span class="hljs-number">9952</span>
+callMain<span class="hljs-variable">@file</span><span class="hljs-symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="hljs-symbol">js:</span><span class="hljs-number">10734</span>
+doRun<span class="hljs-variable">@file</span><span class="hljs-symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="hljs-symbol">js:</span><span class="hljs-number">10787</span>
+run/&lt;<span class="hljs-variable">@file</span><span class="hljs-symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="hljs-symbol">js:</span><span class="hljs-number">10799</span>
+<span class="hljs-string">"-1"</span>
+</code></pre><p>So, <code>SDL_DisplayFormat</code> is not implemented in Emscripten flavour of SDL. For a moment I thought that
 this is as far as I get - no function means no function.  I could try to implement missing functionality,
 but as I`m not an expert in SDL this would probably require a lot of effort. However, poking around
 sources of Emscripten version of SDL, I found an implementation of function <code>SDL_DisplayFormatAlpha</code>.
 Googling revealed that it works and that it most probably ignore the alpha channel for now, so I
 decided to give it a try and <a href="https://github.com/cfiet/gnurobbo/commit/0cdcf6c76d0dda98fbc234784f063d145cd126e4">replaced all the occurences of <code>SDL_DisplayFormat</code></a>.</p>
 <p>After recompilation and page refresh I was welcomed with same white screen, but the JS console error has changed.</p>
-<pre class="highlight"><code class="coffeescript">uncaught <span class="attribute">exception</span>: <span class="attribute">Mix_QuerySpec</span>: TODO</code></pre>
-<p>So, another unsupported function. This one however seemed to be connected to the sound subsystem, so I decided to
+<pre class="highlight"><code class="hljs groovy">uncaught <span class="hljs-string">exception:</span> <span class="hljs-string">Mix_QuerySpec:</span> TODO
+</code></pre><p>So, another unsupported function. This one however seemed to be connected to the sound subsystem, so I decided to
 <a href="https://github.com/cfiet/gnurobbo/commit/ba2809dcf807075bc332f9391d64ba0b7073b28c">just remove it</a>, accepting lack of in-game sounds.</p>
 <p>Compile, refresh and error again.</p>
-<pre class="highlight"><code class="ruby"><span class="string">"missing function: TTF_RenderUTF8_Shaded"</span> gnurobbo.<span class="symbol">html:</span><span class="number">709</span>
-<span class="string">"-1"</span> gnurobbo.<span class="symbol">html:</span><span class="number">709</span>
-uncaught <span class="symbol">exception:</span> abort() at stackTrace<span class="variable">@file</span><span class="symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="symbol">js:</span><span class="number">1454</span>
-abort<span class="variable">@file</span><span class="symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="symbol">js:</span><span class="number">10831</span>
-_TTF_RenderUTF8_Shaded<span class="variable">@file</span><span class="symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="symbol">js:</span><span class="number">9391</span>
-callMain<span class="variable">@file</span><span class="symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="symbol">js:</span><span class="number">10728</span>
-doRun<span class="variable">@file</span><span class="symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="symbol">js:</span><span class="number">10781</span>
-run/&lt;<span class="variable">@file</span><span class="symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="symbol">js:</span><span class="number">10793</span></code></pre>
-<p>TTF seemes like something connected to in-game font rendering. After some poking around <code>Makefile</code>
+<pre class="highlight"><code class="hljs ruby"><span class="hljs-string">"missing function: TTF_RenderUTF8_Shaded"</span> gnurobbo.<span class="hljs-symbol">html:</span><span class="hljs-number">709</span>
+<span class="hljs-string">"-1"</span> gnurobbo.<span class="hljs-symbol">html:</span><span class="hljs-number">709</span>
+uncaught <span class="hljs-symbol">exception:</span> abort() at stackTrace<span class="hljs-variable">@file</span><span class="hljs-symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="hljs-symbol">js:</span><span class="hljs-number">1454</span>
+abort<span class="hljs-variable">@file</span><span class="hljs-symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="hljs-symbol">js:</span><span class="hljs-number">10831</span>
+_TTF_RenderUTF8_Shaded<span class="hljs-variable">@file</span><span class="hljs-symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="hljs-symbol">js:</span><span class="hljs-number">9391</span>
+callMain<span class="hljs-variable">@file</span><span class="hljs-symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="hljs-symbol">js:</span><span class="hljs-number">10728</span>
+doRun<span class="hljs-variable">@file</span><span class="hljs-symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="hljs-symbol">js:</span><span class="hljs-number">10781</span>
+run/&lt;<span class="hljs-variable">@file</span><span class="hljs-symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="hljs-symbol">js:</span><span class="hljs-number">10793</span>
+</code></pre><p>TTF seemes like something connected to in-game font rendering. After some poking around <code>Makefile</code>
 it turned out that you can either use TTF fonts or pixmap fonts with SDL, so I just <a href="https://github.com/cfiet/gnurobbo/commit/d95ca08d534fdbad6ccec8f292c3fa93671a1be2">switched the mode to
 pixmap</a> to see what happens.</p>
 <h2 id="success-happens">Success happens</h2>
 <p><img src="/img/posts/2014/gnurobbo-page-v2.png" alt="Yeeeeeeeeeeeeeeeeah!"></p>
 <p>Finally, I saw some progress here. However, game has terminated before I was able to do anything
 with the following error:</p>
-<pre class="highlight"><code class="livecodeserver">SDL_Delay called <span class="command"><span class="keyword">on</span> <span class="title">the</span> <span class="title">main</span> <span class="title">thread</span>! <span class="title">Potential</span> <span class="title">infinite</span> <span class="title">loop</span>, <span class="title">quitting</span>.</span></code></pre>
-<p>Some poking around <code>game.c</code> revealed that <code>SDL_Delay</code> is used there to just control the framerate of
+<pre class="highlight"><code class="hljs lasso">SDL_Delay called <span class="hljs-keyword">on</span> the main <span class="hljs-keyword">thread</span><span class="hljs-subst">!</span> Potential infinite <span class="hljs-keyword">loop</span>, quitting<span class="hljs-built_in">.</span>
+</code></pre><p>Some poking around <code>game.c</code> revealed that <code>SDL_Delay</code> is used there to just control the framerate of
 the main game loop. So I decided to give it a try and just remove this call as well. Recompiled,
 refreshed the page and... Firefox spiked the processor, hanged and died. So, the game does not
 terminate anymore, however the JavaScript code gets into an infinite loop. Remembering that
@@ -295,52 +292,7 @@ gameplay-breaking issue with random generator not working correctly, the game se
 
     var disqus_shortname = 'strictlylazy';
   </script>
-  <script >(function(){
-	/* Did we just livereload? */
-var log = !!(localStorage && console && console.log && true);
-if ( log && localStorage.getItem('/docpad-livereload/reloaded') === 'yes' ) {
-	localStorage.removeItem('/docpad-livereload/reloaded');
-	console.log('LiveReload completed at', new Date())
-}
-
-/* Listen for the regenerated event and perform a reload of the page when the event occurs */
-var listen = function(){
-	var primus = new Primus('/docpad-livereload');
-	primus.on('data', function(data){
-		if ( data && data.message ) {
-			if ( data.message === 'generateBefore' ) {
-				if ( log ) {
-					console.log('LiveReload started at', new Date());
-				}
-				if ( typeof document.getElementsByTagName !== 'undefined' ) {
-	document.getElementsByTagName('html')[0].className += ' wait';
-}
-			}
-			else if ( data.message === 'generateAfter' ) {
-				if ( log ) {
-					localStorage.setItem('/docpad-livereload/reloaded', 'yes');
-				}
-				document.location.reload();
-			}
-		}
-	});
-};
-	/* Inject socket into our page */
-var inject = function(){
-	var t = document.createElement('script');
-	t.type = 'text/javascript';
-	t.async = 'async';
-	t.src = '/primus/primus.js';
-	t.onload = listen;
-	var s = document.getElementsByTagName('script')[0];
-	s.parentNode.insertBefore(t, s);
-};
-	if ( typeof Primus !== 'undefined' ) {
-		listen();
-	} else {
-		inject();
-	}
-})();</script><script defer="defer"  src="/lib/jQuery-2.0.3/jquery-2.0.3.min.js"></script><script defer="defer"  src="/lib/bootstrap-3.0.0/js/bootstrap.min.js"></script><script defer="defer"  src="/lib/disqus.count.js"></script><script defer="defer"  src="/lib/disqus.embed.js"></script>
+  <script defer="defer"  src="/lib/jQuery-2.0.3/jquery-2.0.3.min.js"></script><script defer="defer"  src="/lib/bootstrap-3.0.0/js/bootstrap.min.js"></script><script defer="defer"  src="/lib/disqus.count.js"></script><script defer="defer"  src="/lib/disqus.embed.js"></script>
   <script>
     ga('send', 'timing', 'page', 'scripts', Math.round(timers.global.stop("page:scripts")));
   </script>

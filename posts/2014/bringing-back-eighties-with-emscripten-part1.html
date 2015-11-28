@@ -20,16 +20,12 @@
     ga('send', 'pageview');
   </script>
 
-  <meta name="generator" content="DocPad v6.52.2" />
+  <meta name="generator" content="DocPad v6.78.4" />
 
   <script>
     timers.global.start("page:styles");
   </script>
-  <style >html.wait {
-	cursor: wait !important;
-	opacity: 0;
-	transition: opacity 0.5s ease;
-}</style><link  rel="stylesheet" href="/lib/bootstrap-3.0.0/css/bootstrap.min.css" /><link  rel="stylesheet" href="/lib/highlight.js/styles/github.css" /><link  rel="stylesheet" href="/style.css" />
+  <link  rel="stylesheet" href="/lib/bootstrap-3.0.0/css/bootstrap.min.css" /><link  rel="stylesheet" href="/lib/highlight.js/styles/github.css" /><link  rel="stylesheet" href="/style.css" />
   <script>
     ga('send', 'timing', 'page', 'styles', Math.round(timers.global.stop("page:styles")));
   </script>
@@ -103,7 +99,6 @@ introduced me to computers and dragged-in my whole family, including my mother, 
 a feat no other game has archived ever since. So when I found <a href="http://gnurobbo.sourceforge.net">this Open Source port of Robbo</a>
 it seemed natural candidate for bringing back all the 1980s gaming fun to the modern Web.</p>
 <!-- Read more -->
-
 <h2 id="a-tool-for-the-job">A tool for the job</h2>
 <p>So what exactly is <a href="https://github.com/kripken/emscripten/wiki">Emscripten</a>? According to the project Wiki page</p>
 <blockquote>
@@ -170,52 +165,7 @@ in the process.</p>
 
     var disqus_shortname = 'strictlylazy';
   </script>
-  <script >(function(){
-	/* Did we just livereload? */
-var log = !!(localStorage && console && console.log && true);
-if ( log && localStorage.getItem('/docpad-livereload/reloaded') === 'yes' ) {
-	localStorage.removeItem('/docpad-livereload/reloaded');
-	console.log('LiveReload completed at', new Date())
-}
-
-/* Listen for the regenerated event and perform a reload of the page when the event occurs */
-var listen = function(){
-	var primus = new Primus('/docpad-livereload');
-	primus.on('data', function(data){
-		if ( data && data.message ) {
-			if ( data.message === 'generateBefore' ) {
-				if ( log ) {
-					console.log('LiveReload started at', new Date());
-				}
-				if ( typeof document.getElementsByTagName !== 'undefined' ) {
-	document.getElementsByTagName('html')[0].className += ' wait';
-}
-			}
-			else if ( data.message === 'generateAfter' ) {
-				if ( log ) {
-					localStorage.setItem('/docpad-livereload/reloaded', 'yes');
-				}
-				document.location.reload();
-			}
-		}
-	});
-};
-	/* Inject socket into our page */
-var inject = function(){
-	var t = document.createElement('script');
-	t.type = 'text/javascript';
-	t.async = 'async';
-	t.src = '/primus/primus.js';
-	t.onload = listen;
-	var s = document.getElementsByTagName('script')[0];
-	s.parentNode.insertBefore(t, s);
-};
-	if ( typeof Primus !== 'undefined' ) {
-		listen();
-	} else {
-		inject();
-	}
-})();</script><script defer="defer"  src="/lib/jQuery-2.0.3/jquery-2.0.3.min.js"></script><script defer="defer"  src="/lib/bootstrap-3.0.0/js/bootstrap.min.js"></script><script defer="defer"  src="/lib/disqus.count.js"></script><script defer="defer"  src="/lib/disqus.embed.js"></script>
+  <script defer="defer"  src="/lib/jQuery-2.0.3/jquery-2.0.3.min.js"></script><script defer="defer"  src="/lib/bootstrap-3.0.0/js/bootstrap.min.js"></script><script defer="defer"  src="/lib/disqus.count.js"></script><script defer="defer"  src="/lib/disqus.embed.js"></script>
   <script>
     ga('send', 'timing', 'page', 'scripts', Math.round(timers.global.stop("page:scripts")));
   </script>
