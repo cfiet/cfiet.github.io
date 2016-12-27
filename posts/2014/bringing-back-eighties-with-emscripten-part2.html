@@ -20,7 +20,7 @@
     ga('send', 'pageview');
   </script>
 
-  <meta name="generator" content="DocPad v6.78.4" />
+  <meta name="generator" content="DocPad v6.79.0" />
 
   <script>
     timers.global.start("page:styles");
@@ -120,14 +120,14 @@ manager. In order to do that, edit <code>/etc/apt/sources.list</code> and add th
 less stable than default ones avaliable. Probably you don`t want to do this on improtant,
 production machines.</p>
 <p>Once you save the file, just run:</p>
-<pre class="highlight"><code class="hljs bash"><span class="hljs-built_in">sudo</span> apt-get update
-<span class="hljs-built_in">sudo</span> apt-get install llvm clang git nodejs
+<pre class="highlight"><code class="hljs bash">sudo apt-get update
+sudo apt-get install llvm clang git nodejs
 </code></pre>
 <p>This should get you all the prerequisites.</p>
 <h2 id="obtaining-emscripten">Obtaining Emscripten</h2>
 <p>Once the prerequisites are done installing, you can obtain the Emscripten toolchain by cloning the
 git repository somewhere in your system. To do that, run the following commands:</p>
-<pre class="highlight"><code class="hljs bash">git clone https://github.com/kripken/emscripten.git
+<pre class="highlight"><code class="hljs bash">git <span class="hljs-built_in">clone</span> https://github.com/kripken/emscripten.git
 <span class="hljs-built_in">cd</span> emscripten
 git checkout master
 </code></pre>
@@ -137,7 +137,7 @@ of the project. You need to manually check-out the <code>master</code> to get th
 <h2 id="it-doesn-t-work-">It doesn`t work!</h2>
 <p>Except, it did not work for me. I got the following error when compiled test file with emscripten C compiler:</p>
 <pre class="highlight"><code class="hljs bash">cfiet@crunchbang:~/projects/emscripten$ ./em++ tests/hello_world.cpp
-WARNING  root: (Emscripten: system change: <span class="hljs-number">1.11</span>.<span class="hljs-number">0</span>|le32-unknown-nacl|/usr/bin|version vs <span class="hljs-number">1.11</span>.<span class="hljs-number">0</span>|le32-unknown-nacl|/usr/lib/llvm-<span class="hljs-number">3.5</span>/bin/|version, clearing cache)
+WARNING  root: (Emscripten: system change: 1.11.0|le32-unknown-nacl|/usr/bin|version vs 1.11.0|le32-unknown-nacl|/usr/lib/llvm-3.5/bin/|version, clearing cache)
 WARNING  root: LLVM version appears incorrect (seeing <span class="hljs-string">"version"</span>, expected <span class="hljs-string">"3.2"</span>)
 INFO     root: (Emscripten: Running sanity checks)
 clang: error: no such file or directory: <span class="hljs-string">'le32-unknown-nacl'</span>
@@ -145,7 +145,7 @@ ERROR    root: compiler frontend failed to generate LLVM bitcode, halting
 </code></pre>
 <p>A quick check reveals the reason for this error</p>
 <pre class="highlight"><code class="hljs bash">cfiet@crunchbang:~/projects/emscripten$ clang --version
-Debian clang version <span class="hljs-number">3.0</span>-<span class="hljs-number">6.2</span> (tags/RELEASE_30/final) (based on LLVM <span class="hljs-number">3.0</span>)
+Debian clang version 3.0-6.2 (tags/RELEASE_30/final) (based on LLVM 3.0)
 Target: x86_64-pc-linux-gnu
 Thread model: posix
 </code></pre>
@@ -154,20 +154,20 @@ I didn`t bother to check what was the default version obtained from repository. 
 googling, I found <a href="http://llvm.org/apt">this LLVM nightly packages</a> repository for Debian.
 To add it to your system, just create a file <code>/etc/apt/sources.list.d/llvm.list</code> with the 
 following content:</p>
-<pre class="highlight"><code class="hljs elixir">deb <span class="hljs-symbol">http:</span>/<span class="hljs-regexp">/llvm.org/apt</span><span class="hljs-regexp">/wheezy/</span> llvm-toolchain-wheezy main
+<pre class="highlight"><code class="hljs crystal">deb <span class="hljs-symbol">http:</span>/<span class="hljs-regexp">/llvm.org/apt</span><span class="hljs-regexp">/wheezy/</span> llvm-toolchain-wheezy main
 </code></pre><p><strong>Warning:</strong> This installs an unstable version of LLVM on your machine. Use with caution.</p>
 <p>Then run the following commands:</p>
-<pre class="highlight"><code class="hljs bash"><span class="hljs-built_in">sudo</span> apt-get remove clang
-<span class="hljs-built_in">sudo</span> apt-get install clang-<span class="hljs-number">3.5</span>
+<pre class="highlight"><code class="hljs bash">sudo apt-get remove clang
+sudo apt-get install clang-3.5
 </code></pre>
 <p>After installation has finished, I tried to compile the test file again:</p>
 <pre class="highlight"><code class="hljs bash">cfiet@crunchbang:~/projects/emscripten$ ./em++ tests/hello_world.cpp
 /usr/bin/llvm-nm: /tmp/tmpwBqfBx/hello_world_0.o: Unknown bitstream version!
 /usr/bin/opt: /tmp/tmpwBqfBx/a.out.bc: Unknown bitstream version!
 Traceback (most recent call last):
-    File <span class="hljs-string">"/home/cfiet/projects/emscripten/emcc"</span>, line <span class="hljs-number">1479</span>, <span class="hljs-keyword">in</span> &lt;module&gt;
+    File <span class="hljs-string">"/home/cfiet/projects/emscripten/emcc"</span>, line 1479, <span class="hljs-keyword">in</span> &lt;module&gt;
         shared.Building.llvm_opt(final, link_opts, final + <span class="hljs-string">'.link.ll'</span>)
-    File <span class="hljs-string">"/home/cfiet/projects/emscripten/tools/shared.py"</span>, line <span class="hljs-number">1173</span>, <span class="hljs-keyword">in</span> llvm_opt
+    File <span class="hljs-string">"/home/cfiet/projects/emscripten/tools/shared.py"</span>, line 1173, <span class="hljs-keyword">in</span> llvm_opt
         assert os.path.exists(target), <span class="hljs-string">'Failed to run llvm optimizations: '</span> + output
         AssertionError: Failed to run llvm optimizations:
 </code></pre>
@@ -175,32 +175,32 @@ Traceback (most recent call last):
 the tool:</p>
 <pre class="highlight"><code class="hljs bash">cfiet@crunchbang:~/projects/emscripten$ llvm-nm --version
 Low Level Virtual Machine (http://llvm.org/):
- llvm version <span class="hljs-number">3.0</span>
-  (Debian <span class="hljs-number">3.0</span>-<span class="hljs-number">10</span>)Optimized build.
- Built Jul <span class="hljs-number">13</span> <span class="hljs-number">2012</span> (<span class="hljs-number">11</span>:<span class="hljs-number">36</span>:<span class="hljs-number">32</span>).
+ llvm version 3.0
+  (Debian 3.0-10)Optimized build.
+ Built Jul 13 2012 (11:36:32).
  Host: x86_64-pc-linux-gnu
  Host CPU: corei7-avx
 </code></pre>
 <p>Ok, so I still have an old version of LLVM installed togather as default, even though during <code>clang-3.5</code>
 installation, <code>llvm-3.5</code> was installed as well. So I tried to remove the old version with</p>
-<pre class="highlight"><code class="hljs bash"><span class="hljs-built_in">sudo</span> apt-get remove llvm
+<pre class="highlight"><code class="hljs bash">sudo apt-get remove llvm
 </code></pre>
 <p>After that, attempting to compile the test file, failed with the following error:</p>
-<pre class="highlight"><code class="hljs stylus">cfiet@crunchbang:~/projects/emscripten$ ./em++ tests/hello_world<span class="hljs-class">.cpp</span>
+<pre class="highlight"><code class="hljs vhdl">cfiet@crunchbang:~/projects/emscripten$ ./em++ tests/hello_world.cpp
 Traceback (most recent call last):
-  File <span class="hljs-string">"/home/cfiet/projects/emscripten/emcc"</span>, line <span class="hljs-number">1424</span>, <span class="hljs-keyword">in</span> &lt;module&gt;
-    extra_files_to_link = system_libs.<span class="hljs-function"><span class="hljs-title">calculate</span><span class="hljs-params">(temp_files, in_temp, stdout, stderr)</span></span>
-  File <span class="hljs-string">"/home/cfiet/projects/emscripten/tools/system_libs.py"</span>, line <span class="hljs-number">342</span>, <span class="hljs-keyword">in</span> calculate
-    symbolses = <span class="hljs-function"><span class="hljs-title">map</span><span class="hljs-params">(lambda temp_file: shared.Building.llvm_nm(temp_file)</span></span>, temp_files)
-  File <span class="hljs-string">"/home/cfiet/projects/emscripten/tools/system_libs.py"</span>, line <span class="hljs-number">342</span>, <span class="hljs-keyword">in</span> &lt;lambda&gt;
-    symbolses = <span class="hljs-function"><span class="hljs-title">map</span><span class="hljs-params">(lambda temp_file: shared.Building.llvm_nm(temp_file)</span></span>, temp_files)
-  File <span class="hljs-string">"/home/cfiet/projects/emscripten/tools/shared.py"</span>, line <span class="hljs-number">1217</span>, <span class="hljs-keyword">in</span> llvm_nm
-    output = <span class="hljs-function"><span class="hljs-title">Popen</span><span class="hljs-params">([LLVM_NM, filename], stdout=stdout, stderr=stderr)</span></span>.<span class="hljs-function"><span class="hljs-title">communicate</span><span class="hljs-params">()</span></span>[<span class="hljs-number">0</span>]
-  File <span class="hljs-string">"/usr/lib/python2.7/subprocess.py"</span>, line <span class="hljs-number">679</span>, <span class="hljs-keyword">in</span> __init__
+  <span class="hljs-keyword">File</span> <span class="hljs-string">"/home/cfiet/projects/emscripten/emcc"</span>, <span class="hljs-literal">line</span> <span class="hljs-number">1424</span>, <span class="hljs-keyword">in</span> &lt;module&gt;
+    extra_files_to_link = system_libs.calculate(temp_files, in_temp, stdout, stderr)
+  <span class="hljs-keyword">File</span> <span class="hljs-string">"/home/cfiet/projects/emscripten/tools/system_libs.py"</span>, <span class="hljs-literal">line</span> <span class="hljs-number">342</span>, <span class="hljs-keyword">in</span> calculate
+    symbolses = <span class="hljs-keyword">map</span>(lambda temp_file: <span class="hljs-keyword">shared</span>.Building.llvm_nm(temp_file), temp_files)
+  <span class="hljs-keyword">File</span> <span class="hljs-string">"/home/cfiet/projects/emscripten/tools/system_libs.py"</span>, <span class="hljs-literal">line</span> <span class="hljs-number">342</span>, <span class="hljs-keyword">in</span> &lt;lambda&gt;
+    symbolses = <span class="hljs-keyword">map</span>(lambda temp_file: <span class="hljs-keyword">shared</span>.Building.llvm_nm(temp_file), temp_files)
+  <span class="hljs-keyword">File</span> <span class="hljs-string">"/home/cfiet/projects/emscripten/tools/shared.py"</span>, <span class="hljs-literal">line</span> <span class="hljs-number">1217</span>, <span class="hljs-keyword">in</span> llvm_nm
+    output = Popen([LLVM_NM, filename], stdout=stdout, stderr=stderr).communicate()[<span class="hljs-number">0</span>]
+  <span class="hljs-keyword">File</span> <span class="hljs-string">"/usr/lib/python2.7/subprocess.py"</span>, <span class="hljs-literal">line</span> <span class="hljs-number">679</span>, <span class="hljs-keyword">in</span> __init__
     errread, errwrite)
-  File <span class="hljs-string">"/usr/lib/python2.7/subprocess.py"</span>, line <span class="hljs-number">1259</span>, <span class="hljs-keyword">in</span> _execute_child
+  <span class="hljs-keyword">File</span> <span class="hljs-string">"/usr/lib/python2.7/subprocess.py"</span>, <span class="hljs-literal">line</span> <span class="hljs-number">1259</span>, <span class="hljs-keyword">in</span> _execute_child
     raise child_exception
-OSError: [Errno <span class="hljs-number">2</span>] No such file or directory
+OSError: [Errno <span class="hljs-number">2</span>] No such <span class="hljs-keyword">file</span> <span class="hljs-keyword">or</span> directory
 </code></pre><p>Seems that now, Emscripten cannot find <code>llvm-nm</code> at all, because the tool in <code>PATH</code> is called <code>llvm-nm-3.5</code>
 that is a symbolic link to <code>/usr/lib/llvm-3.5/bin/llvm-nm</code>. However, Emscripten generates
 a file <code>~/.emscripten</code> where you can customize paths to the tools it uses. So I just edited the file and
@@ -242,7 +242,7 @@ hello, world!
         var disqus_identifier = "/posts/2014/bringing-back-eighties-with-emscripten-part2.html",
             disqus_title = "Bringing back the eighties with Emscripten - setting things up";
       </script>
-      <section id="disqus_thread"></section>
+      <section class="comments" id="disqus_thread"></section>
     
   </article>
 </div>

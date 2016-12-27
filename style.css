@@ -29,7 +29,6 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 400;
 }
 
-
 body {
   font-family: 'Lato', Calibri, Arial, sans-serif;
   font-weight: 400;
@@ -37,7 +36,11 @@ body {
   color: rgb(3, 3, 3);
   background-color: rgb(228, 228, 228);
 
-  margin-top: 68px;
+  margin-top: 60px;
+}
+
+article {
+  box-shadow: 3px 3px 4px 1px rgba(190, 190, 190, 0.2);
 }
 
 .nomargin {
@@ -56,7 +59,7 @@ body {
 
 .posts {
   padding: 10px 20px 10px 20px;
-  max-width: 800px;
+  max-width: 960px;
 }
 
 .posts .post:first-child {
@@ -64,7 +67,7 @@ body {
 }
 
 .posts .post {
-  margin: 10px 0px 10px 0px;
+  margin: 20px 0px 20px 0px;
 }
 
 
@@ -80,9 +83,16 @@ body {
   font-weight: 300;
 }
 
-.posts header {
-  padding: 10px;
+.post header,
+.post .post-content {
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   background-color: rgb(255, 255, 255);
+}
+
+.posts header {
   border-bottom: 2px dashed rgb(238, 238, 238);
 }
 
@@ -90,19 +100,13 @@ body {
   font-family: Roboto, Arial, sans-serif;
   font-size: 14pt;
   font-weight: 300;
-  padding: 10px;
-  background-color: rgb(255, 255, 255);
   margin: 0px;
-}
-
-.posts .post-content .about {
-  /*font-size: 13pt;*/
 }
 
 .posts .post-content .about .avatar {
   width: 100px;
   height: 100px;
-  float: left;
+  float: right;
   margin-right: 10px;
 }
 
@@ -134,7 +138,9 @@ body {
   color: rgb(241, 241, 241);
   background-color: rgb(24, 33, 61);
   text-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 5px 4px 1px rgba(190, 190, 190, 0.2);
 }
+
 
 .navbar .navbar-brand,
 .navbar-default .navbar-nav > li > a {
@@ -143,14 +149,36 @@ body {
 
 .navbar .navbar-brand:hover,
 .navbar-default .navbar-nav > li > a:hover {
-  color: rgb(42, 100, 150);
-}
-
-.navbar .navbar-brand {
-  font-size: 22pt;
-  padding-right: 40px;
+  color: rgb(86, 159, 222);
 }
 
 .navbar-default .navbar-nav > li > a {
   font-size: 18pt;
+  transition: all 100ms ease-in-out;
+  background-color: rgba(84, 93, 121, 0);
+}
+
+.navbar-default .navbar-nav > li > a:hover {
+  background-color: rgba(84, 93, 121, 1);
+}
+
+
+.navbar-default .navbar-nav > li > a:hover {
+  font-size: 18pt;
+}
+
+.navbar-default .navbar-nav > li.active > a {
+  color: #e7e7e7;
+  background-color: rgb(54, 63, 91);
+}
+
+.navbar-default .navbar-nav > li.active > a:hover {
+  color: #e7e7e7;
+  background-color: rgba(84, 93, 121, 1);
+}
+
+section.comments {
+  background-color: rgb(255, 255, 255);
+  padding-left: 20px;
+  padding-right: 20px;
 }
