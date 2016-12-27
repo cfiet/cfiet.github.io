@@ -182,3 +182,12 @@ section.comments {
   padding-left: 20px;
   padding-right: 20px;
 }
+
+.projects h2,
+.small-projects h2 {
+    margin-top: 40px;
+}
+
+.projects dl dt {
+  margin-top: 20px;
+}

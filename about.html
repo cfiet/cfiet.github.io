@@ -25,7 +25,11 @@
   <script>
     timers.global.start("page:styles");
   </script>
-  <link  rel="stylesheet" href="/lib/bootstrap-3.0.0/css/bootstrap.min.css" /><link  rel="stylesheet" href="/lib/highlight.js/styles/github.css" /><link  rel="stylesheet" href="/style.css" />
+  <style >html.wait {
+	cursor: wait !important;
+	opacity: 0;
+	transition: opacity 0.5s ease;
+}</style><link  rel="stylesheet" href="/lib/bootstrap-3.0.0/css/bootstrap.min.css" /><link  rel="stylesheet" href="/lib/highlight.js/styles/github.css" /><link  rel="stylesheet" href="/style.css" />
   <script>
     ga('send', 'timing', 'page', 'styles', Math.round(timers.global.stop("page:styles")));
   </script>
@@ -77,7 +81,9 @@
       </header>
 
       <div class="post-content" role="main">
-         <div class="about">
+         <section class="about">
+  <h2>Bio</h2>
+
   <img src="/img/avatar.jpg" alt="Avatar" class="img-circle avatar" />
 
   <p>
@@ -88,7 +94,42 @@
     <a href="index.html">Strictly Lazy</a> is the place where I put together my unfinished projects,
     ideas and thoughts and try to make them somehow interesting and time-worthy.
   </p>
-</div>
+  <p class="social">
+    <a href="https://github.com/cfiet" alt="Github"><img src="/img/Github.png" width="32" height="32" /></a>
+    <a href="https://twitter.com/IRLmaciek" alt="Twitter"><img src="/img/Twitter.png" width="32" height="32" /></a>
+    <a href="https://www.linkedin.com/in/maciej-makowski-5614937b" alt="Linkedin"><img src="/img/Linkedin.png" width="34" height="32" /></a>
+  </p>
+</section>
+<section class="projects">
+  <h2>Some stuff I've made</h2>
+  <dl>
+    <dt>
+      <a href="https://new-glorious-leader.herokuapp.com" alt="Glorious Leader">Glorious Leader</a>
+    </dt>
+    <dd>
+      Kim Jong Un quote generator. See project's <a href="https://github.com/cfiet/glorious-leader-new" alt="Glorious Leader github page">Github page</a> for more information.
+      There is also an older version <a href="https://github.com/cfiet/glorious-leader" alt="Glorious Leader old project">here</a>
+    </dd>
+
+    <dt>
+      <a href="http://blog.cfiet.net/robbojs/" alt="Robbo JS">Robbo.js</a>
+    </dt>
+    <dd>
+      My favorite childhood game ported to browser. Blog posts about porting:
+      <a href="/posts/2014/bringing-back-eighties-with-emscripten-part1.html" alt="Robbo JS, part 1">Part 1</a>,
+      <a href="/posts/2014/bringing-back-eighties-with-emscripten-part2.html" alt="Robbo JS, part 2">Part 2</a>,
+      <a href="/posts/2014/bringing-back-eighties-with-emscripten-part3.html" alt="Robbo JS, part 3">Part 3</a>
+    </dd>
+  </dl>
+</section>
+<section class="small-projects">
+  <h2>Small projects, random Pens and Plunks</h2>
+  <ul>
+    <li><a href="https://codepen.io/cfiet/full/QEYapN/" alt="Codepen, CSS material-like input">Pure CSS material-like input #1</a></li>
+    <li><a href="https://codepen.io/cfiet/full/QEYAkd/" alt="Codepen, other CSS material-like input">Pure CSS material-like input #2</a></li>
+    <li><a href="https://run.plnkr.co/plunks/aTDedNtUZOKPJ28M1P1j/" alt="Random Plunk">This thing</a></li>
+  </ul>
+</section>
       </div>
    </article>
 </div>
@@ -101,7 +142,52 @@
 
     var disqus_shortname = 'strictlylazy';
   </script>
-  <script defer="defer"  src="/lib/jQuery-2.0.3/jquery-2.0.3.min.js"></script><script defer="defer"  src="/lib/bootstrap-3.0.0/js/bootstrap.min.js"></script><script defer="defer"  src="/lib/disqus.count.js"></script><script defer="defer"  src="/lib/disqus.embed.js"></script>
+  <script >(function(){
+	/* Did we just livereload? */
+var log = !!(localStorage && console && console.log && true);
+if ( log && localStorage.getItem('/docpad-livereload/reloaded') === 'yes' ) {
+	localStorage.removeItem('/docpad-livereload/reloaded');
+	console.log('LiveReload completed at', new Date())
+}
+
+/* Listen for the regenerated event and perform a reload of the page when the event occurs */
+var listen = function(){
+	var primus = new Primus('/docpad-livereload');
+	primus.on('data', function(data){
+		if ( data && data.message ) {
+			if ( data.message === 'generateBefore' ) {
+				if ( log ) {
+					console.log('LiveReload started at', new Date());
+				}
+				if ( typeof document.getElementsByTagName !== 'undefined' ) {
+	document.getElementsByTagName('html')[0].className += ' wait';
+}
+			}
+			else if ( data.message === 'generateAfter' ) {
+				if ( log ) {
+					localStorage.setItem('/docpad-livereload/reloaded', 'yes');
+				}
+				document.location.reload();
+			}
+		}
+	});
+};
+	/* Inject socket into our page */
+var inject = function(){
+	var t = document.createElement('script');
+	t.type = 'text/javascript';
+	t.async = 'async';
+	t.src = '/docpad-livereload/primus.js';
+	t.onload = listen;
+	var s = document.getElementsByTagName('script')[0];
+	s.parentNode.insertBefore(t, s);
+};
+	if ( typeof Primus !== 'undefined' ) {
+		listen();
+	} else {
+		inject();
+	}
+})();</script><script defer="defer"  src="/lib/jQuery-2.0.3/jquery-2.0.3.min.js"></script><script defer="defer"  src="/lib/bootstrap-3.0.0/js/bootstrap.min.js"></script><script defer="defer"  src="/lib/disqus.count.js"></script><script defer="defer"  src="/lib/disqus.embed.js"></script>
   <script>
     ga('send', 'timing', 'page', 'scripts', Math.round(timers.global.stop("page:scripts")));
   </script>
