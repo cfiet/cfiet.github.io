@@ -4,6 +4,7 @@ title: "Bringing the nerdy back"
 isPost: true
 date: "2015-11-28 23:05"
 tags: "js HTML5 blog"
+hidden: true
 ---
 
 This place has been dead for quite a while, but I am working to bring it back.

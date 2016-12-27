@@ -60,4 +60,4 @@ module.exports =
     menuItems: ->
       @getCollection("html").findAllLive(menuItem: $exists: true, [{menuItem: 1}])
     posts: ->
-      @getCollection("html").findAllLive(isPost: true, [date: -1])
+      @getCollection("html").findAllLive(isPost: true, hidden: $exists: false, [date: -1])

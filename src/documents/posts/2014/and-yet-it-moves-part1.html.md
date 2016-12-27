@@ -4,6 +4,7 @@ title: "And yet it moves - introduction"
 isPost: true
 date: "2014-03-10 20:00"
 tags: "js HTML5 WebGL performance games emscripten tutorial"
+hidden: true
 ---
 
 Experiment with JS performance while watching some celetsial bodies

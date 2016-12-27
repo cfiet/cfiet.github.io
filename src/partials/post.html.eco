@@ -46,7 +46,7 @@
         var disqus_identifier = "<%- @post.url %>",
             disqus_title = "<%- @post.title %>";
       </script>
-      <section id="disqus_thread"></section>
+      <section class="comments" id="disqus_thread"></section>
     <% end %>
   </article>
 </div>
