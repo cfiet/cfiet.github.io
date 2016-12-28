@@ -2,41 +2,74 @@
 <html lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title><%= @getTitle() %></title>
+  <title>And yet it moves - introduction | Strictly Lazy</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Open Graph tags -->
-  <% if not @isPost(): %>
-    <meta name="og:type" content="website" />
-    <meta name="og:url" content="<%= @getUrl() %>" />
-  <% end %>
-  <% if @isPost(): %>
+  
+  
     <meta name="og:type" content="article" />
     <meta name="og:author" content="Maciej Makowski" />
-    <meta name="og:description" content="<%= @getDescription(@document) %>" />
-    <meta name="og:url" content="<%= @getUrl(@document.relativeOutPath) %>" />
-    <meta name="og:published_time" content="<%= @document.date %>" />
-    <meta name="og:tag" content="<%= @document.tags %>" />
-  <% end %>
-  <meta name="og:title" content="<%= @getTitle() %>" />
-  <meta name="og:image" content="<%= @getUrl('img/avatar.jpg') =>" />
+    <meta name="og:description" content="&lt;h2 id=&quot;experiment-with-js-performance-while-watching-some-celetsial-bodies&quot;&gt;Experiment with JS performance while watching some celetsial bodies&lt;/h2&gt;
+&lt;p&gt;This is something I had going in my mind for quite a while now, so it is high time to start this.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/img/posts/2014/Galileo_Galilei.jpg&quot; alt=&quot;This post was brought to you by Gallileo Gallilei&quot;&gt;&lt;/p&gt;
+&lt;p&gt;This week I will be implementing simple universe simulation in JavaScript that implements
+&lt;a href=&quot;http://en.wikipedia.org/wiki/Newton%27s_law_of_universal_gravitation&quot;&gt;Newtonian gravity&lt;/a&gt; (since
+&lt;a href=&quot;http://en.wikipedia.org/wiki/General_relativity&quot;&gt;General gravity&lt;/a&gt; is out of my reach). While
+doing so, I will experiment to demonstrate the performance implications of some design decisions
+and how using some of the HTML5 APIs can (hopefully) drastically improve the performance. Last
+but not least, I will show you some WebGL and &lt;a href=&quot;http://mrdoob.github.io/three.js/&quot;&gt;Three.js&lt;/a&gt; 
+capabilities, because what use is the universe if you can`t see it.&lt;/p&gt;
+&lt;p&gt;The plan is:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Implement naive solution to present basic simulation concepts and brag about WebGL&lt;/li&gt;
+&lt;li&gt;Iterate the solution to present how some design decisions and data layout can affect performance&lt;/li&gt;
+&lt;li&gt;See if moving heavy lifting to Web Workers can improve performance&lt;/li&gt;
+&lt;li&gt;Try to implement simillar simulation in C and OpenGL, compile with Emscripten, compare performance&lt;/li&gt;
+&lt;li&gt;Have &lt;a href=&quot;https://www.youtube.com/watch?feature=player_detailpage&amp;amp;v=kfVsfOSbJY0#t=120&quot;&gt;fun, fun, fun, fun!&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;So stay tuned and drop at the end of the week to see how much have I done.&lt;/p&gt;
+" />
+    <meta name="og:url" content="http://blog.cfiet.net/posts\2014\and-yet-it-moves-part1.html" />
+    <meta name="og:published_time" content="Mon Mar 10 2014 20:00:00 GMT+0000 (GMT Standard Time)" />
+    <meta name="og:tag" content="js,HTML5,WebGL,performance,games,emscripten,tutorial" />
+  
+  <meta name="og:title" content="And yet it moves - introduction | Strictly Lazy" />
+  <meta name="og:image" content="http://blog.cfiet.net/img/avatar.jpg" />
 
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="<%= @getTitle() %>" />
-  <meta name="twitter:image" content="<%= @getUrl('img/avatar.jpg') =>" />
+  <meta name="twitter:title" content="And yet it moves - introduction | Strictly Lazy" />
+  <meta name="twitter:image" content="http://blog.cfiet.net/img/avatar.jpg" />
   <meta name="twitter:creator" content="Maciej Makowski" />
   <meta name="twitter:creator:id" content="@IRLmaciek" />
   <meta name="twitter:site:id" content="@IRLmaciek" />
-  <% if not @isPost(): %>
-    <meta name="twitter:url" content="<%= @getUrl() %>" />
-  <% end %>
-  <% if @isPost(): %>
-    <meta name="twitter:url" content="<%= @getUrl(@document.relativeOutPath) %>" />
-    <meta name="twitter:description" content="<%= @getDescription(@document) %>" />
-  <% end %>
+  
+  
+    <meta name="twitter:url" content="http://blog.cfiet.net/posts\2014\and-yet-it-moves-part1.html" />
+    <meta name="twitter:description" content="&lt;h2 id=&quot;experiment-with-js-performance-while-watching-some-celetsial-bodies&quot;&gt;Experiment with JS performance while watching some celetsial bodies&lt;/h2&gt;
+&lt;p&gt;This is something I had going in my mind for quite a while now, so it is high time to start this.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/img/posts/2014/Galileo_Galilei.jpg&quot; alt=&quot;This post was brought to you by Gallileo Gallilei&quot;&gt;&lt;/p&gt;
+&lt;p&gt;This week I will be implementing simple universe simulation in JavaScript that implements
+&lt;a href=&quot;http://en.wikipedia.org/wiki/Newton%27s_law_of_universal_gravitation&quot;&gt;Newtonian gravity&lt;/a&gt; (since
+&lt;a href=&quot;http://en.wikipedia.org/wiki/General_relativity&quot;&gt;General gravity&lt;/a&gt; is out of my reach). While
+doing so, I will experiment to demonstrate the performance implications of some design decisions
+and how using some of the HTML5 APIs can (hopefully) drastically improve the performance. Last
+but not least, I will show you some WebGL and &lt;a href=&quot;http://mrdoob.github.io/three.js/&quot;&gt;Three.js&lt;/a&gt; 
+capabilities, because what use is the universe if you can`t see it.&lt;/p&gt;
+&lt;p&gt;The plan is:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Implement naive solution to present basic simulation concepts and brag about WebGL&lt;/li&gt;
+&lt;li&gt;Iterate the solution to present how some design decisions and data layout can affect performance&lt;/li&gt;
+&lt;li&gt;See if moving heavy lifting to Web Workers can improve performance&lt;/li&gt;
+&lt;li&gt;Try to implement simillar simulation in C and OpenGL, compile with Emscripten, compare performance&lt;/li&gt;
+&lt;li&gt;Have &lt;a href=&quot;https://www.youtube.com/watch?feature=player_detailpage&amp;amp;v=kfVsfOSbJY0#t=120&quot;&gt;fun, fun, fun, fun!&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;So stay tuned and drop at the end of the week to see how much have I done.&lt;/p&gt;
+" />
+  
 
 
   <script src="/lib/timers.js"></script>
@@ -53,12 +86,16 @@
     ga('send', 'pageview');
   </script>
 
-  <%- @getBlock("meta").toHTML() %>
+  <meta name="generator" content="DocPad v6.79.0" />
 
   <script>
     timers.global.start("page:styles");
   </script>
-  <%- @getBlock("styles").add(@assets.styles).toHTML() %>
+  <style >html.wait {
+	cursor: wait !important;
+	opacity: 0;
+	transition: opacity 0.5s ease;
+}</style><link  rel="stylesheet" href="/lib/bootstrap-3.0.0/css/bootstrap.min.css" /><link  rel="stylesheet" href="/lib/highlight.js/styles/github.css" /><link  rel="stylesheet" href="/style.css" />
   <script>
     ga('send', 'timing', 'page', 'styles', Math.round(timers.global.stop("page:styles")));
   </script>
@@ -79,11 +116,15 @@
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <% for item in @getCollection("menuItems").toJSON(): %>
-          <li <%- 'class="active"' if @isTopLevelDocument(item) %> >
-            <a href="<%- item.url %>"><%- item.title %></a>
+        
+          <li  >
+            <a href="/index.html">Blog</a>
           </li>
-        <% end %>
+        
+          <li  >
+            <a href="/about.html">About</a>
+          </li>
+        
 
         <!--
         <li class="active"><a href="/index.html">Blog</a></li>
@@ -99,7 +140,67 @@
     <div class="col-sm-12 nomargin nopadding">
       <!-- posts row -->
       <div class="row posts">
-        <%- @content %>
+        
+
+<div class="col-xs-12 post">
+  <article>
+    <a name="/posts/2014/and-yet-it-moves-part1.html"></a>
+    <header>
+    <h1>
+        
+        And yet it moves - introduction</a>
+        
+            </a>
+        
+    </h1>
+    <h3>Posted on Monday, 10th March 2014</h3>
+    </header>
+    <div class="post-content" role="main">
+        
+          <h2 id="experiment-with-js-performance-while-watching-some-celetsial-bodies">Experiment with JS performance while watching some celetsial bodies</h2>
+<p>This is something I had going in my mind for quite a while now, so it is high time to start this.</p>
+<p><img src="/img/posts/2014/Galileo_Galilei.jpg" alt="This post was brought to you by Gallileo Gallilei"></p>
+<p>This week I will be implementing simple universe simulation in JavaScript that implements
+<a href="http://en.wikipedia.org/wiki/Newton%27s_law_of_universal_gravitation">Newtonian gravity</a> (since
+<a href="http://en.wikipedia.org/wiki/General_relativity">General gravity</a> is out of my reach). While
+doing so, I will experiment to demonstrate the performance implications of some design decisions
+and how using some of the HTML5 APIs can (hopefully) drastically improve the performance. Last
+but not least, I will show you some WebGL and <a href="http://mrdoob.github.io/three.js/">Three.js</a> 
+capabilities, because what use is the universe if you can`t see it.</p>
+<p>The plan is:</p>
+<ol>
+<li>Implement naive solution to present basic simulation concepts and brag about WebGL</li>
+<li>Iterate the solution to present how some design decisions and data layout can affect performance</li>
+<li>See if moving heavy lifting to Web Workers can improve performance</li>
+<li>Try to implement simillar simulation in C and OpenGL, compile with Emscripten, compare performance</li>
+<li>Have <a href="https://www.youtube.com/watch?feature=player_detailpage&amp;v=kfVsfOSbJY0#t=120">fun, fun, fun, fun!</a></li>
+</ol>
+<p>So stay tuned and drop at the end of the week to see how much have I done.</p>
+
+        
+        
+    </div>
+    
+      <footer class="row nomargin nopadding">
+        <div class="col-xs-4 post-nav-prev">
+          
+        </div>
+        <div class="col-xs-4 post-nav-top">
+          <a href="/index.html">Top</a>
+        </div>
+        <div class="col-xs-4 post-nav-next">
+          
+        </div>
+      </footer>
+      <script>
+        var disqus_identifier = "/posts/2014/and-yet-it-moves-part1.html",
+            disqus_title = "And yet it moves - introduction";
+      </script>
+      <section class="comments" id="disqus_thread"></section>
+    
+  </article>
+</div>
+
       </div> <!-- end of posts row -->
     </div> <!-- end of content -->
   </div> <!-- end of external fluid row -->
@@ -109,7 +210,52 @@
 
     var disqus_shortname = 'strictlylazy';
   </script>
-  <%- @getBlock("scripts").add(@assets.scripts).toHTML() %>
+  <script >(function(){
+	/* Did we just livereload? */
+var log = !!(localStorage && console && console.log && true);
+if ( log && localStorage.getItem('/docpad-livereload/reloaded') === 'yes' ) {
+	localStorage.removeItem('/docpad-livereload/reloaded');
+	console.log('LiveReload completed at', new Date())
+}
+
+/* Listen for the regenerated event and perform a reload of the page when the event occurs */
+var listen = function(){
+	var primus = new Primus('/docpad-livereload');
+	primus.on('data', function(data){
+		if ( data && data.message ) {
+			if ( data.message === 'generateBefore' ) {
+				if ( log ) {
+					console.log('LiveReload started at', new Date());
+				}
+				if ( typeof document.getElementsByTagName !== 'undefined' ) {
+	document.getElementsByTagName('html')[0].className += ' wait';
+}
+			}
+			else if ( data.message === 'generateAfter' ) {
+				if ( log ) {
+					localStorage.setItem('/docpad-livereload/reloaded', 'yes');
+				}
+				document.location.reload();
+			}
+		}
+	});
+};
+	/* Inject socket into our page */
+var inject = function(){
+	var t = document.createElement('script');
+	t.type = 'text/javascript';
+	t.async = 'async';
+	t.src = '/docpad-livereload/primus.js';
+	t.onload = listen;
+	var s = document.getElementsByTagName('script')[0];
+	s.parentNode.insertBefore(t, s);
+};
+	if ( typeof Primus !== 'undefined' ) {
+		listen();
+	} else {
+		inject();
+	}
+})();</script><script defer="defer"  src="/lib/jQuery-2.0.3/jquery-2.0.3.min.js"></script><script defer="defer"  src="/lib/bootstrap-3.0.0/js/bootstrap.min.js"></script><script defer="defer"  src="/lib/disqus.count.js"></script><script defer="defer"  src="/lib/disqus.embed.js"></script>
   <script>
     ga('send', 'timing', 'page', 'scripts', Math.round(timers.global.stop("page:scripts")));
   </script>

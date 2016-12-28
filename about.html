@@ -2,41 +2,31 @@
 <html lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title><%= @getTitle() %></title>
+  <title>About | Strictly Lazy</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Open Graph tags -->
-  <% if not @isPost(): %>
+  
     <meta name="og:type" content="website" />
-    <meta name="og:url" content="<%= @getUrl() %>" />
-  <% end %>
-  <% if @isPost(): %>
-    <meta name="og:type" content="article" />
-    <meta name="og:author" content="Maciej Makowski" />
-    <meta name="og:description" content="<%= @getDescription(@document) %>" />
-    <meta name="og:url" content="<%= @getUrl(@document.relativeOutPath) %>" />
-    <meta name="og:published_time" content="<%= @document.date %>" />
-    <meta name="og:tag" content="<%= @document.tags %>" />
-  <% end %>
-  <meta name="og:title" content="<%= @getTitle() %>" />
-  <meta name="og:image" content="<%= @getUrl('img/avatar.jpg') =>" />
+    <meta name="og:url" content="http://blog.cfiet.net/" />
+  
+  
+  <meta name="og:title" content="About | Strictly Lazy" />
+  <meta name="og:image" content="http://blog.cfiet.net/img/avatar.jpg" />
 
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="<%= @getTitle() %>" />
-  <meta name="twitter:image" content="<%= @getUrl('img/avatar.jpg') =>" />
+  <meta name="twitter:title" content="About | Strictly Lazy" />
+  <meta name="twitter:image" content="http://blog.cfiet.net/img/avatar.jpg" />
   <meta name="twitter:creator" content="Maciej Makowski" />
   <meta name="twitter:creator:id" content="@IRLmaciek" />
   <meta name="twitter:site:id" content="@IRLmaciek" />
-  <% if not @isPost(): %>
-    <meta name="twitter:url" content="<%= @getUrl() %>" />
-  <% end %>
-  <% if @isPost(): %>
-    <meta name="twitter:url" content="<%= @getUrl(@document.relativeOutPath) %>" />
-    <meta name="twitter:description" content="<%= @getDescription(@document) %>" />
-  <% end %>
+  
+    <meta name="twitter:url" content="http://blog.cfiet.net/" />
+  
+  
 
 
   <script src="/lib/timers.js"></script>
@@ -53,12 +43,16 @@
     ga('send', 'pageview');
   </script>
 
-  <%- @getBlock("meta").toHTML() %>
+  <meta name="generator" content="DocPad v6.79.0" />
 
   <script>
     timers.global.start("page:styles");
   </script>
-  <%- @getBlock("styles").add(@assets.styles).toHTML() %>
+  <style >html.wait {
+	cursor: wait !important;
+	opacity: 0;
+	transition: opacity 0.5s ease;
+}</style><link  rel="stylesheet" href="/lib/bootstrap-3.0.0/css/bootstrap.min.css" /><link  rel="stylesheet" href="/lib/highlight.js/styles/github.css" /><link  rel="stylesheet" href="/style.css" />
   <script>
     ga('send', 'timing', 'page', 'styles', Math.round(timers.global.stop("page:styles")));
   </script>
@@ -79,11 +73,15 @@
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <% for item in @getCollection("menuItems").toJSON(): %>
-          <li <%- 'class="active"' if @isTopLevelDocument(item) %> >
-            <a href="<%- item.url %>"><%- item.title %></a>
+        
+          <li  >
+            <a href="/index.html">Blog</a>
           </li>
-        <% end %>
+        
+          <li class="active" >
+            <a href="/about.html">About</a>
+          </li>
+        
 
         <!--
         <li class="active"><a href="/index.html">Blog</a></li>
@@ -99,7 +97,65 @@
     <div class="col-sm-12 nomargin nopadding">
       <!-- posts row -->
       <div class="row posts">
-        <%- @content %>
+        <div class="col-md-12 post">
+   <article>
+      <header>
+         <h1><a href="#">About</a></h1>
+      </header>
+
+      <div class="post-content" role="main">
+         <section class="about">
+  <h2>Bio</h2>
+
+  <img src="/img/avatar.jpg" alt="Avatar" class="img-circle avatar" />
+
+  <p>
+    Hi, I'm Maciej, a passionate hacker and software developer by education and profession,
+    currently living and working in London, UK.
+  </p>
+  <p role="contentinfo">
+    <a href="index.html">Strictly Lazy</a> is the place where I put together my unfinished projects,
+    ideas and thoughts and try to make them somehow interesting and time-worthy.
+  </p>
+  <p class="social">
+    <a href="https://github.com/cfiet" alt="Github"><img src="/img/Github.png" width="32" height="32" /></a>
+    <a href="https://twitter.com/IRLmaciek" alt="Twitter"><img src="/img/Twitter.png" width="32" height="32" /></a>
+    <a href="https://www.linkedin.com/in/maciej-makowski-5614937b" alt="Linkedin"><img src="/img/Linkedin.png" width="34" height="32" /></a>
+  </p>
+</section>
+<section class="projects">
+  <h2>Some stuff I've made</h2>
+  <dl>
+    <dt>
+      <a href="https://new-glorious-leader.herokuapp.com" alt="Glorious Leader">Glorious Leader</a>
+    </dt>
+    <dd>
+      Kim Jong Un quote generator. See project's <a href="https://github.com/cfiet/glorious-leader-new" alt="Glorious Leader github page">Github page</a> for more information.
+      There is also an older version <a href="https://github.com/cfiet/glorious-leader" alt="Glorious Leader old project">here</a>
+    </dd>
+
+    <dt>
+      <a href="http://blog.cfiet.net/robbojs/" alt="Robbo JS">Robbo.js</a>
+    </dt>
+    <dd>
+      My favorite childhood game ported to browser. Blog posts about porting:
+      <a href="/posts/2014/bringing-back-eighties-with-emscripten-part1.html" alt="Robbo JS, part 1">Part 1</a>,
+      <a href="/posts/2014/bringing-back-eighties-with-emscripten-part2.html" alt="Robbo JS, part 2">Part 2</a>,
+      <a href="/posts/2014/bringing-back-eighties-with-emscripten-part3.html" alt="Robbo JS, part 3">Part 3</a>
+    </dd>
+  </dl>
+</section>
+<section class="small-projects">
+  <h2>Small projects, random Pens and Plunks</h2>
+  <ul>
+    <li><a href="https://codepen.io/cfiet/full/QEYapN/" alt="Codepen, CSS material-like input">Pure CSS material-like input #1</a></li>
+    <li><a href="https://codepen.io/cfiet/full/QEYAkd/" alt="Codepen, other CSS material-like input">Pure CSS material-like input #2</a></li>
+    <li><a href="https://run.plnkr.co/plunks/aTDedNtUZOKPJ28M1P1j/" alt="Random Plunk">This thing</a></li>
+  </ul>
+</section>
+      </div>
+   </article>
+</div>
       </div> <!-- end of posts row -->
     </div> <!-- end of content -->
   </div> <!-- end of external fluid row -->
@@ -109,7 +165,52 @@
 
     var disqus_shortname = 'strictlylazy';
   </script>
-  <%- @getBlock("scripts").add(@assets.scripts).toHTML() %>
+  <script >(function(){
+	/* Did we just livereload? */
+var log = !!(localStorage && console && console.log && true);
+if ( log && localStorage.getItem('/docpad-livereload/reloaded') === 'yes' ) {
+	localStorage.removeItem('/docpad-livereload/reloaded');
+	console.log('LiveReload completed at', new Date())
+}
+
+/* Listen for the regenerated event and perform a reload of the page when the event occurs */
+var listen = function(){
+	var primus = new Primus('/docpad-livereload');
+	primus.on('data', function(data){
+		if ( data && data.message ) {
+			if ( data.message === 'generateBefore' ) {
+				if ( log ) {
+					console.log('LiveReload started at', new Date());
+				}
+				if ( typeof document.getElementsByTagName !== 'undefined' ) {
+	document.getElementsByTagName('html')[0].className += ' wait';
+}
+			}
+			else if ( data.message === 'generateAfter' ) {
+				if ( log ) {
+					localStorage.setItem('/docpad-livereload/reloaded', 'yes');
+				}
+				document.location.reload();
+			}
+		}
+	});
+};
+	/* Inject socket into our page */
+var inject = function(){
+	var t = document.createElement('script');
+	t.type = 'text/javascript';
+	t.async = 'async';
+	t.src = '/docpad-livereload/primus.js';
+	t.onload = listen;
+	var s = document.getElementsByTagName('script')[0];
+	s.parentNode.insertBefore(t, s);
+};
+	if ( typeof Primus !== 'undefined' ) {
+		listen();
+	} else {
+		inject();
+	}
+})();</script><script defer="defer"  src="/lib/jQuery-2.0.3/jquery-2.0.3.min.js"></script><script defer="defer"  src="/lib/bootstrap-3.0.0/js/bootstrap.min.js"></script><script defer="defer"  src="/lib/disqus.count.js"></script><script defer="defer"  src="/lib/disqus.embed.js"></script>
   <script>
     ga('send', 'timing', 'page', 'scripts', Math.round(timers.global.stop("page:scripts")));
   </script>
