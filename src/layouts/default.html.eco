@@ -20,13 +20,13 @@
     <meta name="og:tag" content="<%= @document.tags %>" />
   <% end %>
   <meta name="og:title" content="<%= @getTitle() %>" />
-  <meta name="og:image" content="<%= @getUrl('img/avatar.jpg') =>" />
+  <meta name="og:image" content="<%= @getUrl('img/avatar.jpg') %>" />
 
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="<%= @getTitle() %>" />
-  <meta name="twitter:image" content="<%= @getUrl('img/avatar.jpg') =>" />
+  <meta name="twitter:image" content="<%= @getUrl('img/avatar.jpg') %>" />
   <meta name="twitter:creator" content="Maciej Makowski" />
   <meta name="twitter:creator:id" content="@IRLmaciek" />
   <meta name="twitter:site:id" content="@IRLmaciek" />
