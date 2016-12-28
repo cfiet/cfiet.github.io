@@ -2,7 +2,7 @@
 layout: single-post
 title: "Bringing the nerdy back"
 isPost: true
-date: "2015-11-28 23:05"
+date: "2016-16-27 23:05"
 tags: "js HTML5 blog"
 hidden: true
 ---

@@ -6,6 +6,39 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <!-- Open Graph tags -->
+  <% if not @isPost(): %>
+    <meta name="og:type" content="website" />
+    <meta name="og:url" content="<%= @getUrl() %>" />
+  <% end %>
+  <% if @isPost(): %>
+    <meta name="og:type" content="article" />
+    <meta name="og:author" content="Maciej Makowski" />
+    <meta name="og:description" content="<%= @getHeaderContent(@document) %>" />
+    <meta name="og:url" content="<%= @getUrl(@document.relativeOutPath) %>" />
+    <meta name="og:published_time" content="<%= @document.date %>" />
+    <meta name="og:tag" content="<%= @document.tags %>" />
+  <% end %>
+  <meta name="og:title" content="<%= @getTitle() %>" />
+  <meta name="og:image" content="@getUrl('img/avatar.jpg')" />
+
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="<%= @getTitle() %>" />
+  <meta name="twitter:image" content="@getUrl('img/avatar.jpg')" />
+  <meta name="twitter:creator" content="Maciej Makowski" />
+  <meta name="twitter:creator:id" content="@IRLmaciek" />
+  <meta name="twitter:site:id" content="@IRLmaciek" />
+  <% if not @isPost(): %>
+    <meta name="twitter:url" content="<%= @getUrl() %>" />
+  <% end %>
+  <% if @isPost(): %>
+    <meta name="twitter:url" content="<%= @getUrl(@document.relativeOutPath) %>" />
+    <meta name="twitter:description" content="<%= @getHeaderContent(@document) %>" />
+  <% end %>
+  
+
   <script src="/lib/timers.js"></script>
   <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

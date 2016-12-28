@@ -6,6 +6,9 @@ moment = require "moment"
 
 module.exports =
   templateData:
+    getUrl: (path) ->
+      "http://blog.cfiet.net/#{path || ''}"
+
     site:
       title: "Strictly Lazy"
     
@@ -14,6 +17,7 @@ module.exports =
     
     getDateFromNow: (doc = @document) ->
       if doc.date then moment(doc.date).format("dddd, Do MMMM YYYY") else ""
+
     
     getHeaderContent: (doc) ->
       content = doc.contentRenderedWithoutLayouts
@@ -28,6 +32,9 @@ module.exports =
     
     isTopLevelDocument: (doc) ->
       doc.url is @document.url
+
+    isPost: () ->
+      @document.relativePath.indexOf("posts") == 0
     
     nextPost: (doc = @document) ->
       if not doc.isPost then throw new Error("Not a post")
