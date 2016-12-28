@@ -14,19 +14,19 @@
   <% if @isPost(): %>
     <meta name="og:type" content="article" />
     <meta name="og:author" content="Maciej Makowski" />
-    <meta name="og:description" content="<%= @getHeaderContent(@document) %>" />
+    <meta name="og:description" content="<%= @getDescription(@document) %>" />
     <meta name="og:url" content="<%= @getUrl(@document.relativeOutPath) %>" />
     <meta name="og:published_time" content="<%= @document.date %>" />
     <meta name="og:tag" content="<%= @document.tags %>" />
   <% end %>
   <meta name="og:title" content="<%= @getTitle() %>" />
-  <meta name="og:image" content="@getUrl('img/avatar.jpg')" />
+  <meta name="og:image" content="<%= @getUrl('img/avatar.jpg') =>" />
 
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="<%= @getTitle() %>" />
-  <meta name="twitter:image" content="@getUrl('img/avatar.jpg')" />
+  <meta name="twitter:image" content="<%= @getUrl('img/avatar.jpg') =>" />
   <meta name="twitter:creator" content="Maciej Makowski" />
   <meta name="twitter:creator:id" content="@IRLmaciek" />
   <meta name="twitter:site:id" content="@IRLmaciek" />
@@ -35,9 +35,9 @@
   <% end %>
   <% if @isPost(): %>
     <meta name="twitter:url" content="<%= @getUrl(@document.relativeOutPath) %>" />
-    <meta name="twitter:description" content="<%= @getHeaderContent(@document) %>" />
+    <meta name="twitter:description" content="<%= @getDescription(@document) %>" />
   <% end %>
-  
+
 
   <script src="/lib/timers.js"></script>
   <script>

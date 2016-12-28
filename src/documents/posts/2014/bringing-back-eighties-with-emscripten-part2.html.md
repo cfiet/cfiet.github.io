@@ -4,6 +4,7 @@ title: "Bringing back the eighties with Emscripten - setting things up"
 isPost: true
 date: "2014-01-21 22:00"
 tags: "js HTML5 games emscripten tutorial"
+description: "Porting my favorite childhood game to JS, part 2"
 ---
 
 Introduction

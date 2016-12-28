@@ -4,6 +4,7 @@ title: "Bringing back the eighties with Emscripten - let the fun begin"
 isPost: true
 date: "2014-01-22 20:00"
 tags: "js HTML5 games emscripten tutorial"
+description: "Porting my favorite childhood game to JS, part 3"
 ---
 
 Ok, so I started up with getting the source of `gnurobbo 0.66` and unpacking it in

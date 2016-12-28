@@ -4,6 +4,7 @@ title: "Bringing back the eighties with Emscripten - introduction"
 isPost: true
 date: "2014-01-21 20:00"
 tags: "js HTML5 games emscripten tutorial"
+description: "Porting my favorite childhood game to JS, part 1"
 ---
 
 Since I first stumbled on some [Emscripten](https://github.com/kripken/emscripten/wiki) demos, I

@@ -18,6 +18,9 @@ module.exports =
     getDateFromNow: (doc = @document) ->
       if doc.date then moment(doc.date).format("dddd, Do MMMM YYYY") else ""
 
+    getDescription: (doc = @document) ->
+      doc.description or @getHeaderContent(doc)
+
     
     getHeaderContent: (doc) ->
       content = doc.contentRenderedWithoutLayouts
