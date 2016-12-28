@@ -2,47 +2,42 @@
 <html lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>Bringing back the eighties with Emscripten - let the fun begin | Strictly Lazy</title>
+  <title><%= @getTitle() %></title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Open Graph tags -->
-  
-  
+  <% if not @isPost(): %>
+    <meta name="og:type" content="website" />
+    <meta name="og:url" content="<%= @getUrl() %>" />
+  <% end %>
+  <% if @isPost(): %>
     <meta name="og:type" content="article" />
     <meta name="og:author" content="Maciej Makowski" />
-    <meta name="og:description" content="&lt;p&gt;Ok, so I started up with getting the source of &lt;code&gt;gnurobbo 0.66&lt;/code&gt; and unpacking it in
-local directory. I decided to build the native version first, so I can have a reference
-to which I could compare the browser version later. After installing &lt;a href=&quot;http://www.libsdl.org/&quot;&gt;SDL&lt;/a&gt;
-with &lt;code&gt;apt-get&lt;/code&gt; everything went pretty smoothly.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/img/posts/2014/c-gnurobbo-menu.png&quot; alt=&quot;Main menu&quot;&gt; &lt;img src=&quot;/img/posts/2014/c-gnurobbo-level1.png&quot; alt=&quot;After starting the first level&quot;&gt;&lt;/p&gt;
-" />
-    <meta name="og:url" content="http://blog.cfiet.net/posts\2014\bringing-back-eighties-with-emscripten-part3.html" />
-    <meta name="og:published_time" content="Wed Jan 22 2014 20:00:00 GMT+0000 (GMT Standard Time)" />
-    <meta name="og:tag" content="js,HTML5,games,emscripten,tutorial" />
-  
-  <meta name="og:title" content="Bringing back the eighties with Emscripten - let the fun begin | Strictly Lazy" />
-  <meta name="og:image" content="@getUrl('img/avatar.jpg')" />
+    <meta name="og:description" content="<%= @getDescription(@document) %>" />
+    <meta name="og:url" content="<%= @getUrl(@document.relativeOutPath) %>" />
+    <meta name="og:published_time" content="<%= @document.date %>" />
+    <meta name="og:tag" content="<%= @document.tags %>" />
+  <% end %>
+  <meta name="og:title" content="<%= @getTitle() %>" />
+  <meta name="og:image" content="<%= @getUrl('img/avatar.jpg') =>" />
 
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Bringing back the eighties with Emscripten - let the fun begin | Strictly Lazy" />
-  <meta name="twitter:image" content="@getUrl('img/avatar.jpg')" />
+  <meta name="twitter:title" content="<%= @getTitle() %>" />
+  <meta name="twitter:image" content="<%= @getUrl('img/avatar.jpg') =>" />
   <meta name="twitter:creator" content="Maciej Makowski" />
   <meta name="twitter:creator:id" content="@IRLmaciek" />
   <meta name="twitter:site:id" content="@IRLmaciek" />
-  
-  
-    <meta name="twitter:url" content="http://blog.cfiet.net/posts\2014\bringing-back-eighties-with-emscripten-part3.html" />
-    <meta name="twitter:description" content="&lt;p&gt;Ok, so I started up with getting the source of &lt;code&gt;gnurobbo 0.66&lt;/code&gt; and unpacking it in
-local directory. I decided to build the native version first, so I can have a reference
-to which I could compare the browser version later. After installing &lt;a href=&quot;http://www.libsdl.org/&quot;&gt;SDL&lt;/a&gt;
-with &lt;code&gt;apt-get&lt;/code&gt; everything went pretty smoothly.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/img/posts/2014/c-gnurobbo-menu.png&quot; alt=&quot;Main menu&quot;&gt; &lt;img src=&quot;/img/posts/2014/c-gnurobbo-level1.png&quot; alt=&quot;After starting the first level&quot;&gt;&lt;/p&gt;
-" />
-  
-  
+  <% if not @isPost(): %>
+    <meta name="twitter:url" content="<%= @getUrl() %>" />
+  <% end %>
+  <% if @isPost(): %>
+    <meta name="twitter:url" content="<%= @getUrl(@document.relativeOutPath) %>" />
+    <meta name="twitter:description" content="<%= @getDescription(@document) %>" />
+  <% end %>
+
 
   <script src="/lib/timers.js"></script>
   <script>
@@ -58,16 +53,12 @@ with &lt;code&gt;apt-get&lt;/code&gt; everything went pretty smoothly.&lt;/p&gt;
     ga('send', 'pageview');
   </script>
 
-  <meta name="generator" content="DocPad v6.79.0" />
+  <%- @getBlock("meta").toHTML() %>
 
   <script>
     timers.global.start("page:styles");
   </script>
-  <style >html.wait {
-	cursor: wait !important;
-	opacity: 0;
-	transition: opacity 0.5s ease;
-}</style><link  rel="stylesheet" href="/lib/bootstrap-3.0.0/css/bootstrap.min.css" /><link  rel="stylesheet" href="/lib/highlight.js/styles/github.css" /><link  rel="stylesheet" href="/style.css" />
+  <%- @getBlock("styles").add(@assets.styles).toHTML() %>
   <script>
     ga('send', 'timing', 'page', 'styles', Math.round(timers.global.stop("page:styles")));
   </script>
@@ -88,15 +79,11 @@ with &lt;code&gt;apt-get&lt;/code&gt; everything went pretty smoothly.&lt;/p&gt;
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        
-          <li  >
-            <a href="/index.html">Blog</a>
+        <% for item in @getCollection("menuItems").toJSON(): %>
+          <li <%- 'class="active"' if @isTopLevelDocument(item) %> >
+            <a href="<%- item.url %>"><%- item.title %></a>
           </li>
-        
-          <li  >
-            <a href="/about.html">About</a>
-          </li>
-        
+        <% end %>
 
         <!--
         <li class="active"><a href="/index.html">Blog</a></li>
@@ -112,217 +99,7 @@ with &lt;code&gt;apt-get&lt;/code&gt; everything went pretty smoothly.&lt;/p&gt;
     <div class="col-sm-12 nomargin nopadding">
       <!-- posts row -->
       <div class="row posts">
-        
-
-<div class="col-xs-12 post">
-  <article>
-    <a name="/posts/2014/bringing-back-eighties-with-emscripten-part3.html"></a>
-    <header>
-    <h1>
-        
-        Bringing back the eighties with Emscripten - let the fun begin</a>
-        
-            </a>
-        
-    </h1>
-    <h3>Posted on Wednesday, 22nd January 2014</h3>
-    </header>
-    <div class="post-content" role="main">
-        
-          <p>Ok, so I started up with getting the source of <code>gnurobbo 0.66</code> and unpacking it in
-local directory. I decided to build the native version first, so I can have a reference
-to which I could compare the browser version later. After installing <a href="http://www.libsdl.org/">SDL</a>
-with <code>apt-get</code> everything went pretty smoothly.</p>
-<p><img src="/img/posts/2014/c-gnurobbo-menu.png" alt="Main menu"> <img src="/img/posts/2014/c-gnurobbo-level1.png" alt="After starting the first level"></p>
-<!-- Read more -->
-<h2 id="let-s-get-down-to-bussiness">Let`s get down to bussiness</h2>
-<p>Ok, so following <a href="https://github.com/kripken/emscripten/wiki/Building-Projects">Emscripten Wiki Page</a> I run the <code>emmake</code> command.</p>
-<pre class="highlight"><code class="hljs bash">cfiet@crunchbang:~/projects/gnurobbo$ emmake make <span class="hljs-_">-f</span> Makefile.emscripten 
-/home/cfiet/projects/emscripten/emcc  -Wall `sdl-config --cflags` -DPLATFORM_PC -DVERSION=\<span class="hljs-string">"0.66\" -DPACKAGE_DATA_DIR=\"./data\" -DUSE_PIXMAP_FONT -DHAVE_MUSIC -DHAVE_DESIGNER -c board.c -o board.o
-controls.c:841:12: error: use of undeclared identifier 'stdout'
-                fprintf (stdout, "</span>Error setting key repeat: %s\n<span class="hljs-string">", SDL_GetError ());
-                         ^
-controls.c:891:23: error: use of undeclared identifier 'stdout'
-                        if (show) fprintf (stdout, "</span>Joystick closed: %i:%s\n<span class="hljs-string">",
-                                           ^
-controls.c:907:25: error: use of undeclared identifier 'stdout'
-                                        if (show) fprintf (stdout, "</span>Joystick opened: %i:%s\n<span class="hljs-string">",
-                                                           ^
-controls.c:915:24: error: use of undeclared identifier 'stdout'
-                                if (show) fprintf (stdout, "</span>Couldn<span class="hljs-string">'t open joystick %i:%s!\n",
-                                                   ^
-controls.c:921:24: error: use of undeclared identifier '</span>stdout<span class="hljs-string">'
-                                if (show) fprintf (stdout, "Couldn'</span>t open any of %i joystick(s)!\n<span class="hljs-string">",
-                                                   ^
-controls.c:931:24: error: use of undeclared identifier 'stdout'
-                                if (show) fprintf (stdout, "</span>Joystick opened: %i:%s\n<span class="hljs-string">",
-                                                   ^
-controls.c:936:24: error: use of undeclared identifier 'stdout'
-                                if (show) fprintf (stdout, "</span>Couldn<span class="hljs-string">'t open joystick %i\n", joyid);
-                                                   ^
-controls.c:950:26: error: use of undeclared identifier '</span>stdout<span class="hljs-string">'
-                                                if (show) fprintf (stdout, "Joystick opened: %i:%s\n",
-                                                                   ^
-controls.c:967:27: error: use of undeclared identifier '</span>stdout<span class="hljs-string">'
-                                                        if (show) fprintf (stdout, "Joystick opened: %i:%s\n",
-                                                                           ^
-controls.c:977:25: error: use of undeclared identifier '</span>stdout<span class="hljs-string">'
-                                        if (show) fprintf (stdout, "Couldn'</span>t find joystick %i:%s\n<span class="hljs-string">",
-                                                           ^
-controls.c:986:22: error: use of undeclared identifier 'stdout'
-                if (show) fprintf (stdout, "</span>There is no joystick to initialise\n<span class="hljs-string">");
-                                   ^
-controls.c:1052:23: error: use of undeclared identifier 'stdout'
-                        if (show) fprintf (stdout, "</span>Joystick found: %i:%s\n<span class="hljs-string">",
-                                           ^
-controls.c:1058:22: error: use of undeclared identifier 'stdout'
-                if (show) fprintf (stdout, "</span>No joystick found\n<span class="hljs-string">");
-                                   ^
-controls.c:1513:9: error: duplicate case value 'SDLK_2'
-                        case SDLK_EURO:
-                             ^
-controls.c:1483:9: error: duplicate case value 'SDLK_LGUI'
-                        case SDLK_LSUPER:
-                             ^
-controls.c:1486:9: error: duplicate case value 'SDLK_RGUI'
-                        case SDLK_RSUPER:
-                             ^
-4 warnings and 16 errors generated.
-ERROR    root: compiler frontend failed to generate LLVM bitcode, halting
-make: *** [controls.o] Błąd 1
-</span></code></pre>
-<p>Bam, errors, errors, errors. But after some closer investigation, there are two main reasons for them:</p>
-<ol>
-<li>Missing <code>stdout</code> identifier. This is  easily-fixable by
-<a href="https://github.com/cfiet/gnurobbo/commit/327b6cb0d5147309b5a169f48d23722f14ad38df#diff-1">adding appropriate header file</a>,</li>
-<li>Duplicate case values coming from <code>SDL_*</code>. After some investigation it turned out that
-Emscripten uses its own, custom SDL version where only part of the library is currently
-supported. A lot of <code>SDL_*</code> defines are actually expanded to the same symbol when compiling.
-There is probably no good solution to this issue, so for now I decided to <a href="https://github.com/cfiet/gnurobbo/commit/746e8b26fdbaa17be05fc262bf60d1ba6fb12802#diff-3">remove this sections
-of code</a>
-with conditional compilation.</li>
-</ol>
-<p>Retried the compilation and, success!</p>
-<pre class="highlight"><code class="hljs bash">cfiet@crunchbang:~/projects/gnurobbo$ emmake make <span class="hljs-_">-f</span> Makefile.emscripten 
-/home/cfiet/projects/emscripten/emcc  -Wall -DPLATFORM_PC -DVERSION=\<span class="hljs-string">"0.66\" -DPACKAGE_DATA_DIR=\"./data\"  -DHAVE_MUSIC -DHAVE_DESIGNER -c board.c -o board.o
-/home/cfiet/projects/emscripten/emcc  -Wall -DPLATFORM_PC -DVERSION=\"0.66\" -DPACKAGE_DATA_DIR=\"./data\"  -DHAVE_MUSIC -DHAVE_DESIGNER -c controls.c -o controls.o
-/home/cfiet/projects/emscripten/emcc  -Wall -DPLATFORM_PC -DVERSION=\"0.66\" -DPACKAGE_DATA_DIR=\"./data\"  -DHAVE_MUSIC -DHAVE_DESIGNER -c font.c -o font.o
-/home/cfiet/projects/emscripten/emcc  -Wall -DPLATFORM_PC -DVERSION=\"0.66\" -DPACKAGE_DATA_DIR=\"./data\"  -DHAVE_MUSIC -DHAVE_DESIGNER -c game.c -o game.o
-/home/cfiet/projects/emscripten/emcc  -Wall -DPLATFORM_PC -DVERSION=\"0.66\" -DPACKAGE_DATA_DIR=\"./data\"  -DHAVE_MUSIC -DHAVE_DESIGNER -c konstruktor.c -o konstruktor.o
-/home/cfiet/projects/emscripten/emcc  -Wall -DPLATFORM_PC -DVERSION=\"0.66\" -DPACKAGE_DATA_DIR=\"./data\"  -DHAVE_MUSIC -DHAVE_DESIGNER -c levels.c -o levels.o
-/home/cfiet/projects/emscripten/emcc  -Wall -DPLATFORM_PC -DVERSION=\"0.66\" -DPACKAGE_DATA_DIR=\"./data\"  -DHAVE_MUSIC -DHAVE_DESIGNER -c locales.c -o locales.o
-/home/cfiet/projects/emscripten/emcc  -Wall -DPLATFORM_PC -DVERSION=\"0.66\" -DPACKAGE_DATA_DIR=\"./data\"  -DHAVE_MUSIC -DHAVE_DESIGNER -c pointer_controls.c -o pointer_controls.o
-/home/cfiet/projects/emscripten/emcc  -Wall -DPLATFORM_PC -DVERSION=\"0.66\" -DPACKAGE_DATA_DIR=\"./data\"  -DHAVE_MUSIC -DHAVE_DESIGNER -c rcfile.c -o rcfile.o
-/home/cfiet/projects/emscripten/emcc  -Wall -DPLATFORM_PC -DVERSION=\"0.66\" -DPACKAGE_DATA_DIR=\"./data\"  -DHAVE_MUSIC -DHAVE_DESIGNER -c ROB_engine.c -o ROB_engine.o
-/home/cfiet/projects/emscripten/emcc  -Wall -DPLATFORM_PC -DVERSION=\"0.66\" -DPACKAGE_DATA_DIR=\"./data\"  -DHAVE_MUSIC -DHAVE_DESIGNER -c screen.c -o screen.o
-/home/cfiet/projects/emscripten/emcc  -Wall -DPLATFORM_PC -DVERSION=\"0.66\" -DPACKAGE_DATA_DIR=\"./data\"  -DHAVE_MUSIC -DHAVE_DESIGNER -c skins.c -o skins.o
-/home/cfiet/projects/emscripten/emcc  -Wall -DPLATFORM_PC -DVERSION=\"0.66\" -DPACKAGE_DATA_DIR=\"./data\"  -DHAVE_MUSIC -DHAVE_DESIGNER -c sound.c -o sound.o
-/home/cfiet/projects/emscripten/emcc   board.o  controls.o  font.o  game.o  konstruktor.o  levels.o  locales.o  pointer_controls.o  rcfile.o  ROB_engine.o  screen.o  skins.o  sound.o  -o gnurobbo.bc
-
-emcc -O2 gnurobbo.bc -o out/gnurobbo.html
-INFO     root: =======================================
-INFO     root: bootstrapping relooper...
-INFO     root:   bootstrap phase 1
-INFO     root:   bootstrap phase 2
-INFO     root: bootstrapping relooper succeeded
-INFO     root: =======================================
-warning: unresolved symbol: TTF_Quit
-warning: unresolved symbol: TTF_RenderUTF8_Shaded
-warning: unresolved symbol: SDL_DisplayFormat
-warning: Output contains some very large functions, consider using OUTLINING_LIMIT to break them up (see settings.js)
-</span></code></pre>
-<p>Got few warnings, got some errors, but other than that it worked.</p>
-<p><img src="/img/posts/2014/excited-baby.gif" alt="It compiled!"></p>
-<h2 id="hold-your-horses-">Hold your horses!</h2>
-<p>The feeling of success quickly faded after an attempt to open the page in the browser:</p>
-<p><img src="/img/posts/2014/gnurobbo-page-v1.png" alt="Does not compute"></p>
-<p>The last message is</p>
-<pre class="highlight"><code class="hljs fortran">Cannot find the <span class="hljs-keyword">default</span> level <span class="hljs-keyword">file</span>: ./<span class="hljs-keyword">data</span>/levels/original.dat
-</code></pre><p>So... it tries to find some game data files but fails to do that. Thanfully, quick browse through the 
-<a href="https://github.com/kripken/emscripten/wiki/Filesystem-Guide">Emscripten documentation</a> reveals the 
-way of pre-packaging data files with your application. 
-<a href="https://github.com/cfiet/gnurobbo/commit/e195be22bd185a50a877cdb5bf3fb3d141a53fa5">Adding the option to the compilation</a>
-got rid of the previous error, again after refreshing the page nothing really happened.</p>
-<p>No direct errors were in the Emscripten cosole, however in JavaScript developer console I found</p>
-<pre class="highlight"><code class="hljs elixir"><span class="hljs-string">"missing function: SDL_DisplayFormat"</span> gnurobbo.<span class="hljs-symbol">html:</span><span class="hljs-number">709</span>
-uncaught <span class="hljs-symbol">exception:</span> abort() at stackTrace<span class="hljs-variable">@file</span><span class="hljs-symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="hljs-symbol">js:</span><span class="hljs-number">1454</span>
-abort<span class="hljs-variable">@file</span><span class="hljs-symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="hljs-symbol">js:</span><span class="hljs-number">10837</span>
-_SDL_DisplayFormat<span class="hljs-variable">@file</span><span class="hljs-symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="hljs-symbol">js:</span><span class="hljs-number">9952</span>
-callMain<span class="hljs-variable">@file</span><span class="hljs-symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="hljs-symbol">js:</span><span class="hljs-number">10734</span>
-doRun<span class="hljs-variable">@file</span><span class="hljs-symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="hljs-symbol">js:</span><span class="hljs-number">10787</span>
-run/&lt;<span class="hljs-variable">@file</span><span class="hljs-symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="hljs-symbol">js:</span><span class="hljs-number">10799</span>
-<span class="hljs-string">"-1"</span>
-</code></pre><p>So, <code>SDL_DisplayFormat</code> is not implemented in Emscripten flavour of SDL. For a moment I thought that
-this is as far as I get - no function means no function.  I could try to implement missing functionality,
-but as I`m not an expert in SDL this would probably require a lot of effort. However, poking around
-sources of Emscripten version of SDL, I found an implementation of function <code>SDL_DisplayFormatAlpha</code>.
-Googling revealed that it works and that it most probably ignore the alpha channel for now, so I
-decided to give it a try and <a href="https://github.com/cfiet/gnurobbo/commit/0cdcf6c76d0dda98fbc234784f063d145cd126e4">replaced all the occurences of <code>SDL_DisplayFormat</code></a>.</p>
-<p>After recompilation and page refresh I was welcomed with same white screen, but the JS console error has changed.</p>
-<pre class="highlight"><code class="hljs groovy">uncaught <span class="hljs-string">exception:</span> <span class="hljs-string">Mix_QuerySpec:</span> TODO
-</code></pre><p>So, another unsupported function. This one however seemed to be connected to the sound subsystem, so I decided to
-<a href="https://github.com/cfiet/gnurobbo/commit/ba2809dcf807075bc332f9391d64ba0b7073b28c">just remove it</a>, accepting lack of in-game sounds.</p>
-<p>Compile, refresh and error again.</p>
-<pre class="highlight"><code class="hljs elixir"><span class="hljs-string">"missing function: TTF_RenderUTF8_Shaded"</span> gnurobbo.<span class="hljs-symbol">html:</span><span class="hljs-number">709</span>
-<span class="hljs-string">"-1"</span> gnurobbo.<span class="hljs-symbol">html:</span><span class="hljs-number">709</span>
-uncaught <span class="hljs-symbol">exception:</span> abort() at stackTrace<span class="hljs-variable">@file</span><span class="hljs-symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="hljs-symbol">js:</span><span class="hljs-number">1454</span>
-abort<span class="hljs-variable">@file</span><span class="hljs-symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="hljs-symbol">js:</span><span class="hljs-number">10831</span>
-_TTF_RenderUTF8_Shaded<span class="hljs-variable">@file</span><span class="hljs-symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="hljs-symbol">js:</span><span class="hljs-number">9391</span>
-callMain<span class="hljs-variable">@file</span><span class="hljs-symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="hljs-symbol">js:</span><span class="hljs-number">10728</span>
-doRun<span class="hljs-variable">@file</span><span class="hljs-symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="hljs-symbol">js:</span><span class="hljs-number">10781</span>
-run/&lt;<span class="hljs-variable">@file</span><span class="hljs-symbol">:///home/cfiet/projects/gnurobbo/out/gnurobbo</span>.<span class="hljs-symbol">js:</span><span class="hljs-number">10793</span>
-</code></pre><p>TTF seemes like something connected to in-game font rendering. After some poking around <code>Makefile</code>
-it turned out that you can either use TTF fonts or pixmap fonts with SDL, so I just <a href="https://github.com/cfiet/gnurobbo/commit/d95ca08d534fdbad6ccec8f292c3fa93671a1be2">switched the mode to
-pixmap</a> to see what happens.</p>
-<h2 id="success-happens">Success happens</h2>
-<p><img src="/img/posts/2014/gnurobbo-page-v2.png" alt="Yeeeeeeeeeeeeeeeeah!"></p>
-<p>Finally, I saw some progress here. However, game has terminated before I was able to do anything
-with the following error:</p>
-<pre class="highlight"><code class="hljs lasso">SDL_Delay called <span class="hljs-keyword">on</span> the main <span class="hljs-keyword">thread</span>! Potential infinite <span class="hljs-keyword">loop</span>, quitting.
-</code></pre><p>Some poking around <code>game.c</code> revealed that <code>SDL_Delay</code> is used there to just control the framerate of
-the main game loop. So I decided to give it a try and just remove this call as well. Recompiled,
-refreshed the page and... Firefox spiked the processor, hanged and died. So, the game does not
-terminate anymore, however the JavaScript code gets into an infinite loop. Remembering that
-I did have glanced on the main-loop issues somewhere in the Emscripten documentation, I did some
-googoling and got the page on 
-<a href="https://github.com/kripken/emscripten/wiki/Emscripten-browser-environment#wiki-implementing-an-asynchronous-main-loop-in-cc">Asynchronous main loop in browser</a>.</p>
-<p>So, some refactoring had to be done, no biggie. Actually, the task turned out to be a little bit challenging due
-to the way in which the main-loop is implemented in GNU Robbo, but after 10 minutes I was able to
-<a href="https://github.com/cfiet/gnurobbo/commit/d4b98a46d27aabc8ce4bef44f8cead4c1841d138">pull off the refactored version</a>.</p>
-<p>Recompile, refresh.</p>
-<h2 id="huge-success-">Huge success!</h2>
-<p><img src="/img/posts/2014/success-dance.gif" alt="It works!"></p>
-<p>The game loads and works! It even plays sound correctly, despite the removed function. After fixing one last,
-gameplay-breaking issue with random generator not working correctly, the game seems to be playable.</p>
-<p><a href="http://blog.cfiet.net/robbojs">Try it out for yourself</a>.</p>
-<p>Have fun, and if you find any bugs feel free to report them on <a href="https://github.com/cfiet/gnurobbo/issues">github project page</a>.</p>
-
-        
-        
-    </div>
-    
-      <footer class="row nomargin nopadding">
-        <div class="col-xs-4 post-nav-prev">
-          
-            <a href="/posts/2014/bringing-back-eighties-with-emscripten-part2.html">&#8592; Bringing back the eighties with Emscripten - setting things up</a>
-          
-        </div>
-        <div class="col-xs-4 post-nav-top">
-          <a href="/index.html">Top</a>
-        </div>
-        <div class="col-xs-4 post-nav-next">
-          
-        </div>
-      </footer>
-      <script>
-        var disqus_identifier = "/posts/2014/bringing-back-eighties-with-emscripten-part3.html",
-            disqus_title = "Bringing back the eighties with Emscripten - let the fun begin";
-      </script>
-      <section class="comments" id="disqus_thread"></section>
-    
-  </article>
-</div>
-
+        <%- @content %>
       </div> <!-- end of posts row -->
     </div> <!-- end of content -->
   </div> <!-- end of external fluid row -->
@@ -332,52 +109,7 @@ gameplay-breaking issue with random generator not working correctly, the game se
 
     var disqus_shortname = 'strictlylazy';
   </script>
-  <script >(function(){
-	/* Did we just livereload? */
-var log = !!(localStorage && console && console.log && true);
-if ( log && localStorage.getItem('/docpad-livereload/reloaded') === 'yes' ) {
-	localStorage.removeItem('/docpad-livereload/reloaded');
-	console.log('LiveReload completed at', new Date())
-}
-
-/* Listen for the regenerated event and perform a reload of the page when the event occurs */
-var listen = function(){
-	var primus = new Primus('/docpad-livereload');
-	primus.on('data', function(data){
-		if ( data && data.message ) {
-			if ( data.message === 'generateBefore' ) {
-				if ( log ) {
-					console.log('LiveReload started at', new Date());
-				}
-				if ( typeof document.getElementsByTagName !== 'undefined' ) {
-	document.getElementsByTagName('html')[0].className += ' wait';
-}
-			}
-			else if ( data.message === 'generateAfter' ) {
-				if ( log ) {
-					localStorage.setItem('/docpad-livereload/reloaded', 'yes');
-				}
-				document.location.reload();
-			}
-		}
-	});
-};
-	/* Inject socket into our page */
-var inject = function(){
-	var t = document.createElement('script');
-	t.type = 'text/javascript';
-	t.async = 'async';
-	t.src = '/docpad-livereload/primus.js';
-	t.onload = listen;
-	var s = document.getElementsByTagName('script')[0];
-	s.parentNode.insertBefore(t, s);
-};
-	if ( typeof Primus !== 'undefined' ) {
-		listen();
-	} else {
-		inject();
-	}
-})();</script><script defer="defer"  src="/lib/jQuery-2.0.3/jquery-2.0.3.min.js"></script><script defer="defer"  src="/lib/bootstrap-3.0.0/js/bootstrap.min.js"></script><script defer="defer"  src="/lib/disqus.count.js"></script><script defer="defer"  src="/lib/disqus.embed.js"></script>
+  <%- @getBlock("scripts").add(@assets.scripts).toHTML() %>
   <script>
     ga('send', 'timing', 'page', 'scripts', Math.round(timers.global.stop("page:scripts")));
   </script>

@@ -2,47 +2,42 @@
 <html lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>Bringing the nerdy back | Strictly Lazy</title>
+  <title><%= @getTitle() %></title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Open Graph tags -->
-  
-  
+  <% if not @isPost(): %>
+    <meta name="og:type" content="website" />
+    <meta name="og:url" content="<%= @getUrl() %>" />
+  <% end %>
+  <% if @isPost(): %>
     <meta name="og:type" content="article" />
     <meta name="og:author" content="Maciej Makowski" />
-    <meta name="og:description" content="&lt;p&gt;This place has been dead for quite a while, but I am working to bring it back.&lt;/p&gt;
-&lt;p&gt;In the meantime, check out &lt;a href=&quot;http://glorious-leader.herokuapp.com/&quot;&gt;Glorious Leader&lt;/a&gt; -
-a small application uses Markov chains and some
-&lt;a href=&quot;http://www.telegraph.co.uk/news/worldnews/asia/northkorea/11408672/North-Korea-releases-barrage-of-propaganda-slogans.html&quot;&gt;North Korean propaganda slogans&lt;/a&gt;
-to generate even better, Best Korea slogans.&lt;/p&gt;
-" />
-    <meta name="og:url" content="http://blog.cfiet.net/posts\2015\bringing-the-nerdy-back.html" />
-    <meta name="og:published_time" content="Invalid Date" />
-    <meta name="og:tag" content="js,HTML5,blog" />
-  
-  <meta name="og:title" content="Bringing the nerdy back | Strictly Lazy" />
-  <meta name="og:image" content="@getUrl('img/avatar.jpg')" />
+    <meta name="og:description" content="<%= @getDescription(@document) %>" />
+    <meta name="og:url" content="<%= @getUrl(@document.relativeOutPath) %>" />
+    <meta name="og:published_time" content="<%= @document.date %>" />
+    <meta name="og:tag" content="<%= @document.tags %>" />
+  <% end %>
+  <meta name="og:title" content="<%= @getTitle() %>" />
+  <meta name="og:image" content="<%= @getUrl('img/avatar.jpg') =>" />
 
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Bringing the nerdy back | Strictly Lazy" />
-  <meta name="twitter:image" content="@getUrl('img/avatar.jpg')" />
+  <meta name="twitter:title" content="<%= @getTitle() %>" />
+  <meta name="twitter:image" content="<%= @getUrl('img/avatar.jpg') =>" />
   <meta name="twitter:creator" content="Maciej Makowski" />
   <meta name="twitter:creator:id" content="@IRLmaciek" />
   <meta name="twitter:site:id" content="@IRLmaciek" />
-  
-  
-    <meta name="twitter:url" content="http://blog.cfiet.net/posts\2015\bringing-the-nerdy-back.html" />
-    <meta name="twitter:description" content="&lt;p&gt;This place has been dead for quite a while, but I am working to bring it back.&lt;/p&gt;
-&lt;p&gt;In the meantime, check out &lt;a href=&quot;http://glorious-leader.herokuapp.com/&quot;&gt;Glorious Leader&lt;/a&gt; -
-a small application uses Markov chains and some
-&lt;a href=&quot;http://www.telegraph.co.uk/news/worldnews/asia/northkorea/11408672/North-Korea-releases-barrage-of-propaganda-slogans.html&quot;&gt;North Korean propaganda slogans&lt;/a&gt;
-to generate even better, Best Korea slogans.&lt;/p&gt;
-" />
-  
-  
+  <% if not @isPost(): %>
+    <meta name="twitter:url" content="<%= @getUrl() %>" />
+  <% end %>
+  <% if @isPost(): %>
+    <meta name="twitter:url" content="<%= @getUrl(@document.relativeOutPath) %>" />
+    <meta name="twitter:description" content="<%= @getDescription(@document) %>" />
+  <% end %>
+
 
   <script src="/lib/timers.js"></script>
   <script>
@@ -58,16 +53,12 @@ to generate even better, Best Korea slogans.&lt;/p&gt;
     ga('send', 'pageview');
   </script>
 
-  <meta name="generator" content="DocPad v6.79.0" />
+  <%- @getBlock("meta").toHTML() %>
 
   <script>
     timers.global.start("page:styles");
   </script>
-  <style >html.wait {
-	cursor: wait !important;
-	opacity: 0;
-	transition: opacity 0.5s ease;
-}</style><link  rel="stylesheet" href="/lib/bootstrap-3.0.0/css/bootstrap.min.css" /><link  rel="stylesheet" href="/lib/highlight.js/styles/github.css" /><link  rel="stylesheet" href="/style.css" />
+  <%- @getBlock("styles").add(@assets.styles).toHTML() %>
   <script>
     ga('send', 'timing', 'page', 'styles', Math.round(timers.global.stop("page:styles")));
   </script>
@@ -88,15 +79,11 @@ to generate even better, Best Korea slogans.&lt;/p&gt;
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        
-          <li  >
-            <a href="/index.html">Blog</a>
+        <% for item in @getCollection("menuItems").toJSON(): %>
+          <li <%- 'class="active"' if @isTopLevelDocument(item) %> >
+            <a href="<%- item.url %>"><%- item.title %></a>
           </li>
-        
-          <li  >
-            <a href="/about.html">About</a>
-          </li>
-        
+        <% end %>
 
         <!--
         <li class="active"><a href="/index.html">Blog</a></li>
@@ -112,53 +99,7 @@ to generate even better, Best Korea slogans.&lt;/p&gt;
     <div class="col-sm-12 nomargin nopadding">
       <!-- posts row -->
       <div class="row posts">
-        
-
-<div class="col-xs-12 post">
-  <article>
-    <a name="/posts/2015/bringing-the-nerdy-back.html"></a>
-    <header>
-    <h1>
-        
-        Bringing the nerdy back</a>
-        
-            </a>
-        
-    </h1>
-    <h3>Posted on Invalid date</h3>
-    </header>
-    <div class="post-content" role="main">
-        
-          <p>This place has been dead for quite a while, but I am working to bring it back.</p>
-<p>In the meantime, check out <a href="http://glorious-leader.herokuapp.com/">Glorious Leader</a> -
-a small application uses Markov chains and some
-<a href="http://www.telegraph.co.uk/news/worldnews/asia/northkorea/11408672/North-Korea-releases-barrage-of-propaganda-slogans.html">North Korean propaganda slogans</a>
-to generate even better, Best Korea slogans.</p>
-
-        
-        
-    </div>
-    
-      <footer class="row nomargin nopadding">
-        <div class="col-xs-4 post-nav-prev">
-          
-        </div>
-        <div class="col-xs-4 post-nav-top">
-          <a href="/index.html">Top</a>
-        </div>
-        <div class="col-xs-4 post-nav-next">
-          
-        </div>
-      </footer>
-      <script>
-        var disqus_identifier = "/posts/2015/bringing-the-nerdy-back.html",
-            disqus_title = "Bringing the nerdy back";
-      </script>
-      <section class="comments" id="disqus_thread"></section>
-    
-  </article>
-</div>
-
+        <%- @content %>
       </div> <!-- end of posts row -->
     </div> <!-- end of content -->
   </div> <!-- end of external fluid row -->
@@ -168,52 +109,7 @@ to generate even better, Best Korea slogans.</p>
 
     var disqus_shortname = 'strictlylazy';
   </script>
-  <script >(function(){
-	/* Did we just livereload? */
-var log = !!(localStorage && console && console.log && true);
-if ( log && localStorage.getItem('/docpad-livereload/reloaded') === 'yes' ) {
-	localStorage.removeItem('/docpad-livereload/reloaded');
-	console.log('LiveReload completed at', new Date())
-}
-
-/* Listen for the regenerated event and perform a reload of the page when the event occurs */
-var listen = function(){
-	var primus = new Primus('/docpad-livereload');
-	primus.on('data', function(data){
-		if ( data && data.message ) {
-			if ( data.message === 'generateBefore' ) {
-				if ( log ) {
-					console.log('LiveReload started at', new Date());
-				}
-				if ( typeof document.getElementsByTagName !== 'undefined' ) {
-	document.getElementsByTagName('html')[0].className += ' wait';
-}
-			}
-			else if ( data.message === 'generateAfter' ) {
-				if ( log ) {
-					localStorage.setItem('/docpad-livereload/reloaded', 'yes');
-				}
-				document.location.reload();
-			}
-		}
-	});
-};
-	/* Inject socket into our page */
-var inject = function(){
-	var t = document.createElement('script');
-	t.type = 'text/javascript';
-	t.async = 'async';
-	t.src = '/docpad-livereload/primus.js';
-	t.onload = listen;
-	var s = document.getElementsByTagName('script')[0];
-	s.parentNode.insertBefore(t, s);
-};
-	if ( typeof Primus !== 'undefined' ) {
-		listen();
-	} else {
-		inject();
-	}
-})();</script><script defer="defer"  src="/lib/jQuery-2.0.3/jquery-2.0.3.min.js"></script><script defer="defer"  src="/lib/bootstrap-3.0.0/js/bootstrap.min.js"></script><script defer="defer"  src="/lib/disqus.count.js"></script><script defer="defer"  src="/lib/disqus.embed.js"></script>
+  <%- @getBlock("scripts").add(@assets.scripts).toHTML() %>
   <script>
     ga('send', 'timing', 'page', 'scripts', Math.round(timers.global.stop("page:scripts")));
   </script>
