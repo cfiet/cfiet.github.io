@@ -5,6 +5,9 @@
 moment = require "moment"
 
 module.exports =
+  
+  port: 9778
+
   templateData:
     getUrl: (path) ->
       "http://blog.cfiet.net/#{path || ''}"
@@ -20,7 +23,6 @@ module.exports =
 
     getDescription: (doc = @document) ->
       doc.description or @getHeaderContent(doc)
-
     
     getHeaderContent: (doc) ->
       content = doc.contentRenderedWithoutLayouts
@@ -55,13 +57,13 @@ module.exports =
     
     assets:
       styles: [
-        "/lib/bootstrap-3.0.0/css/bootstrap.min.css",
+        "/lib/bootstrap-3.4.0/css/bootstrap.min.css",
         "/lib/highlight.js/styles/github.css",
         "/style.css"
       ]
       scripts: [
-        "/lib/jQuery-2.0.3/jquery-2.0.3.min.js",
-        "/lib/bootstrap-3.0.0/js/bootstrap.min.js",
+        "/lib/jjquery-3.3.1.min.js",
+        "/lib/bootstrap-3.4.0/js/bootstrap.min.js",
         "/lib/disqus.count.js",
         "/lib/disqus.embed.js"
       ]
