@@ -62,7 +62,7 @@ module.exports =
         "/style.css"
       ]
       scripts: [
-        "/lib/jjquery-3.3.1.min.js",
+        "/lib/jquery-3.3.1.min.js",
         "/lib/bootstrap-3.4.0/js/bootstrap.min.js",
         "/lib/disqus.count.js",
         "/lib/disqus.embed.js"
