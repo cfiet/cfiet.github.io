@@ -15,8 +15,3 @@ learning [Rust](https://www.rust-lang.org/), which I find a very
 unique and interesting experience. I feel it's an amazing opportunity to 
 re-start this blog and share some of my thoughts, hopefully learning on 
 the way and showing some of the cool stuff I'm making.
-
-
-So stay tuned, tomorrow I'm planning to share quite a long write-up
-on why, out of all the languages out there, I've decided to spend
-my time on Rust.
