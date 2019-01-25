@@ -1,6 +1,6 @@
 ---
 layout: single-post
-title: "Rust live coding coming soon"
+title: "Rust live coding stream coming soon"
 isPost: true
 date: "2019-01-25 22:00"
 tags: ["blog", "programming", "rust", "learning", "livestream"]
